@@ -8,7 +8,7 @@ import MainScreen from './components/ui/MainScreen';
 
 function App() {
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={{flex: 1}}>
       <MainScreen/>
     </SafeAreaView>
   );

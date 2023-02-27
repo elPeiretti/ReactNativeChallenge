@@ -16,7 +16,7 @@ Here are the rules to follow:
 ## Day 1
 Time dedicated: about 4 hours
 
-On day 1, the next things were done:
+> On day 1, the next things were done:
 - I've chosen the app idea. It will be a Sudoku with different difficulties and with a Time-trial gamemode.
 - I've setup all the software and files required to code and run/test de app.
 - I've designed how de UI may be, just to have an idea while coding (UI_design.png).

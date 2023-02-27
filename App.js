@@ -4,12 +4,13 @@ import {
   StatusBar,
   useColorScheme,
 } from 'react-native';
+import DifficultyScreen from './components/ui/DifficultyScreen';
 import MainScreen from './components/ui/MainScreen';
 
 function App() {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <MainScreen/>
+      <DifficultyScreen/>
     </SafeAreaView>
   );
 }

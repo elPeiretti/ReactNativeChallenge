@@ -41,10 +41,14 @@ const SudokuBoard = () => {
                                 col.i == 0 && {borderTopWidth: 2},
                                 (col.i+1)%3 == 0 && {borderBottomWidth: 2},
                                 (col.j+1)%3 == 0 && {borderRightWidth: 2},
-                                selectedCell === col && {backgroundColor: 'yellow'},
+                                selectedCell === col && {backgroundColor: '#d6f9ff'},
                             ]}
                             onPress={()=>{setSelectedCell(col)}}>
-                            <Text style={{fontSize:22}}>{col.value}</Text>
+                            <Text 
+                                style={[{fontSize:22},
+                                    selectedCell === col && {color: '#000000', fontWeight: 'bold'}]}>
+                                        {col.value}
+                            </Text>
                         </Pressable>
                     ))}
                 </View>
@@ -58,12 +62,10 @@ export default SudokuBoard;
 const styles = StyleSheet.create({
     board:{
         flexDirection: 'column',
-        borderWidth: 1,
         alignItems: 'center',
     },
     boardRow:{
         flexDirection: 'row',
-        backgroundColor: '#0000FF'
     },
     boardCell:{
         borderWidth: 0.5,
@@ -71,6 +73,6 @@ const styles = StyleSheet.create({
         height: 40,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#00FFFF'
+        backgroundColor: '#F0F0F0'
     }
 });

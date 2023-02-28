@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import SudokuBoard from './SudokuBoard';
 
 const GameScreen = () => {
 
@@ -15,8 +16,8 @@ const GameScreen = () => {
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.viewBorder}>
-
+            <View style={[styles.viewBorder, styles.board]}>
+                <SudokuBoard/>
             </View>
         </View>
     );
@@ -43,5 +44,8 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         backgroundColor: '#ffe8aa'
+    },
+    board:{
+
     }
 });

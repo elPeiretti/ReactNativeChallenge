@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import IconButton from './IconButton';
 import SudokuBoard from './SudokuBoard';
 
 const GameScreen = () => {
@@ -18,6 +19,11 @@ const GameScreen = () => {
             </View>
             <View style={[styles.viewBorder, styles.board]}>
                 <SudokuBoard/>
+            </View>
+            <View style={[styles.viewBorder, styles.buttons]}>
+                <IconButton text='erase' image={require('./icons/eraser.png')}/>
+                <IconButton text='annotate' image={require('./icons/annotate.png')}/>
+                <IconButton text='hint' image={require('./icons/hint.png')}/>
             </View>
         </View>
     );
@@ -46,6 +52,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffe8aa'
     },
     board:{
-
+        paddingTop: 30
+    },
+    buttons:{
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
     }
 });

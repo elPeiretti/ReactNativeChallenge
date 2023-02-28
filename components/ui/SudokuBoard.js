@@ -29,11 +29,6 @@ const SudokuBoard = () => {
 
     const [selectedCell, setSelectedCell] = useState({});
 
-    function selectCell(cell){
-        setSelectedCell(cell);
-        console.log(cell);
-    }
-
     return (
         <View style={styles.board}>
             {matrix.map(row => (
@@ -48,7 +43,7 @@ const SudokuBoard = () => {
                                 (col.j+1)%3 == 0 && {borderRightWidth: 2},
                                 selectedCell === col && {backgroundColor: 'yellow'},
                             ]}
-                            onPress={()=>{selectCell(col)}}>
+                            onPress={()=>{setSelectedCell(col)}}>
                             <Text style={{fontSize:22}}>{col.value}</Text>
                         </Pressable>
                     ))}

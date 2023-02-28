@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import IconButton from './IconButton';
+import NumberButton from './NumberButton';
 import SudokuBoard from './SudokuBoard';
 
 const GameScreen = () => {
@@ -9,7 +10,7 @@ const GameScreen = () => {
 
     return (
         <View style={{flex: 1, backgroundColor: '#FF00FF'}}>
-            <View style={[{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 10, paddingTop: 10}, styles.viewBorder]}>
+            <View style={[{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}, styles.viewBorder]}>
                 <Text style={styles.stopwatch}>
                     {new Date(timeInSeconds*1000).toISOString().substring(11,19)}
                 </Text>
@@ -25,6 +26,12 @@ const GameScreen = () => {
                 <IconButton text='annotate' image={require('./icons/annotate.png')}/>
                 <IconButton text='hint' image={require('./icons/hint.png')}/>
             </View>
+            <View style={[styles.viewBorder, styles.numbers]}>
+                {[1,2,3,4,5,6,7,8,9].map(n => (
+                    <NumberButton number={n}/>
+                ))}
+            </View>
+
         </View>
     );
 }
@@ -52,10 +59,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffe8aa'
     },
     board:{
-        paddingTop: 30
+        paddingTop: 40
     },
     buttons:{
         flexDirection: 'row',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        paddingTop: 50
+    },
+    numbers:{
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        paddingTop: 10
     }
 });

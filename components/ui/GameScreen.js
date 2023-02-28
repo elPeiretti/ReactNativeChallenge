@@ -18,15 +18,15 @@ const GameScreen = () => {
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>
             </View>
-            <View style={[styles.viewBorder, styles.board]}>
+            <View style={styles.board}>
                 <SudokuBoard/>
             </View>
-            <View style={[styles.viewBorder, styles.buttons]}>
+            <View style={styles.buttons}>
                 <IconButton text='erase' image={require('./icons/eraser.png')}/>
                 <IconButton text='annotate' image={require('./icons/annotate.png')}/>
                 <IconButton text='hint' image={require('./icons/hint.png')}/>
             </View>
-            <View style={[styles.viewBorder, styles.numbers]}>
+            <View style={styles.numbers}>
                 {[1,2,3,4,5,6,7,8,9].map(n => (
                     <NumberButton number={n}/>
                 ))}
@@ -39,11 +39,6 @@ const GameScreen = () => {
 export default GameScreen;
 
 const styles = StyleSheet.create({
-    viewBorder:{
-        borderWidth: 1,
-        borderRadius: 0,
-        backgroundColor: '#00FF00'
-    },
     stopwatch:{
         alignSelf: 'center',
         paddingEnd: 15,

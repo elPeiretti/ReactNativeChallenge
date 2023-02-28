@@ -9,7 +9,7 @@ const GameScreen = () => {
     const [timeInSeconds, setTimeInSecods] = useState(0);
 
     return (
-        <View style={{flex: 1, backgroundColor: '#FF00FF'}}>
+        <View style={{flex: 1}}>
             <View style={[{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}, styles.viewBorder]}>
                 <Text style={styles.stopwatch}>
                     {new Date(timeInSeconds*1000).toISOString().substring(11,19)}
@@ -64,6 +64,6 @@ const styles = StyleSheet.create({
     numbers:{
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        paddingTop: 10
+        paddingTop: 20
     }
 });

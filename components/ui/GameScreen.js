@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
+import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
 import SudokuBoard from './SudokuBoard';
@@ -7,14 +8,36 @@ import SudokuBoard from './SudokuBoard';
 const GameScreen = () => {
 
     const [timeInSeconds, setTimeInSecods] = useState(0);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    function showPauseModal(){
+        //TODO -> pause timer
+        setModalVisible(true);
+    }
+    function hidePauseModal(){
+        //TODO -> resume timer
+        setModalVisible(false);
+    }
 
     return (
         <View style={{flex: 1}}>
-            <View style={[{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}, styles.viewBorder]}>
+            <Modal
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={()=>{setModalVisible(!modalVisible)}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={styles.pauseModal}>
+                        <Text style={styles.modalTitle}>Game paused</Text>
+                        <Button text='Resume' onPress={hidePauseModal}/>
+                        <Button text='Exit' color='#ffd6d6'/>
+                    </View>
+                </View>
+            </Modal>
+            <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
                 <Text style={styles.stopwatch}>
                     {new Date(timeInSeconds*1000).toISOString().substring(11,19)}
                 </Text>
-                <TouchableOpacity style={styles.pauseButton}>
+                <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>
             </View>
@@ -52,6 +75,26 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         backgroundColor: '#ffe8aa'
+    },
+    pauseModal:{
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        elevation: 10,
+        shadowColor: '#000000',
+        backgroundColor: 'white',
+        borderRadius: 20,
+        borderWidth: 5,
+        padding: 20,
+
+    },
+    modalTitle:{
+        fontFamily: 'monospace',
+        fontSize: 40,
+        fontWeight: 'bold',
+        color: '#000000',
+        paddingBottom: 40
     },
     board:{
         paddingTop: 40

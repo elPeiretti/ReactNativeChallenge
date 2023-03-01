@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
 import Button from './Button';
 import IconButton from './IconButton';
@@ -9,19 +9,24 @@ const GameScreen = ({route, navigation}) => {
 
     const difficulty = route.params;
     const [timeInSeconds, setTimeInSecods] = useState(0);
+    const [isCounting, setIsCounting] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
 
+    useEffect(() => {
+        const int = setInterval(() => {if (isCounting) setTimeInSecods(timeInSeconds+1)},1000);
+        return () => {clearInterval(int)};
+    });
+
     function showPauseModal(){
-        //TODO -> pause timer
+        setIsCounting(false);
         setModalVisible(true);
     }
     function hidePauseModal(){
-        //TODO -> resume timer
+        setIsCounting(true);
         setModalVisible(false);
     }
-
-    console.log(difficulty);
+    
     return (
         <SafeAreaView style={{flex: 1}}>
             <Modal

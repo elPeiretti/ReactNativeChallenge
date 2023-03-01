@@ -9,6 +9,7 @@ const GameScreen = () => {
 
     const [timeInSeconds, setTimeInSecods] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
+    const [mode, setMode] = useState('write');
 
     function showPauseModal(){
         //TODO -> pause timer
@@ -45,9 +46,36 @@ const GameScreen = () => {
                 <SudokuBoard/>
             </View>
             <View style={styles.buttons}>
-                <IconButton text='erase' image={require('./icons/eraser.png')}/>
-                <IconButton text='annotate' image={require('./icons/annotate.png')}/>
-                <IconButton text='hint' image={require('./icons/hint.png')}/>
+                <IconButton 
+                    text='erase' 
+                    image={require('./icons/eraser.png')} 
+                    onPress={()=>{
+                        if (mode == 'erase')
+                            setMode('write');
+                        else
+                            setMode('erase');
+                    }}
+                    isSelected={mode == 'erase'}/>
+                <IconButton 
+                    text='annotate'
+                    image={require('./icons/annotate.png')}
+                    onPress={()=>{
+                        if (mode == 'annotate')
+                            setMode('write');
+                        else
+                            setMode('annotate');
+                    }}
+                    isSelected={mode == 'annotate'}/>
+                <IconButton
+                    text='hint' 
+                    image={require('./icons/hint.png')}
+                    onPress={()=>{
+                        if (mode == 'hint')
+                            setMode('write');
+                        else
+                            setMode('hint');
+                    }}
+                    isSelected={mode == 'hint'}/>
             </View>
             <View style={styles.numbers}>
                 {[1,2,3,4,5,6,7,8,9].map(n => (

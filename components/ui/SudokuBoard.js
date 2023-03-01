@@ -26,7 +26,7 @@ const SudokuBoard = (props) => {
         [{...cell, i:8, j:0}, {...cell, i:8, j:1}, {...cell, i:8, j:2}, {...cell, i:8, j:3}, {...cell, i:8, j:4}, {...cell, i:8, j:5}, {...cell, i:8, j:6}, {...cell, i:8, j:7}, {...cell, i:8, j:8}],
     ]);
     const [solution, setSolution] = useState();
-    const [selectedCell, setSelectedCell] = useState({});
+    const [selectedCell, setSelectedCell] = useState();
 
     useEffect(() => { 
         const game = SolutionGenerator(props.difficulty);
@@ -54,7 +54,7 @@ const SudokuBoard = (props) => {
                                 col.i == 0 && {borderTopWidth: 2},
                                 (col.i+1)%3 == 0 && {borderBottomWidth: 2},
                                 (col.j+1)%3 == 0 && {borderRightWidth: 2},
-                                selectedCell === col && {backgroundColor: '#d6f9ff', borderWidth: 1},
+                                selectedCell == col && {backgroundColor: '#d6f9ff', borderWidth: 1},
                             ]}
                             onPress={()=>{setSelectedCell(col)}}>
                             {matrix[col.i][col.j].visible ? (

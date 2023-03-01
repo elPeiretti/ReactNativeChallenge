@@ -4,7 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 const NumberButton = (props) => {
     return (
         <View style={styles.container}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={props.onPress}>
                 <Text style={styles.number}>{props.number}</Text>
             </TouchableOpacity>
         </View>

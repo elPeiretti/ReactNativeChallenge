@@ -3,20 +3,15 @@ import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal } from 'r
 import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
+import Stopwatch from './Stopwatch';
 import SudokuBoard from './SudokuBoard';
 
 const GameScreen = ({route, navigation}) => {
 
     const difficulty = route.params;
-    const [timeInSeconds, setTimeInSecods] = useState(0);
     const [isCounting, setIsCounting] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
-
-    useEffect(() => {
-        const int = setInterval(() => {if (isCounting) setTimeInSecods(timeInSeconds+1)},1000);
-        return () => {clearInterval(int)};
-    }, [timeInSeconds, isCounting]);
 
     function showPauseModal(){
         setIsCounting(false);
@@ -42,9 +37,7 @@ const GameScreen = ({route, navigation}) => {
                 </View>
             </Modal>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
-                <Text style={styles.stopwatch}>
-                    {new Date(timeInSeconds*1000).toISOString().substring(11,19)}
-                </Text>
+                <Stopwatch isCounting={isCounting}/>
                 <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>
@@ -97,11 +90,6 @@ const GameScreen = ({route, navigation}) => {
 export default GameScreen;
 
 const styles = StyleSheet.create({
-    stopwatch:{
-        alignSelf: 'center',
-        paddingEnd: 15,
-        fontSize: 20
-    },
     pauseButton:{
         borderWidth: 2,
         borderRadius: 10,

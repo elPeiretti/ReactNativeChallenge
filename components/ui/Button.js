@@ -6,6 +6,7 @@ const Button = (props) => {
         <TouchableOpacity 
             style={[styles.button, props.color && {backgroundColor: props.color}, props.style]}
             activeOpacity={0.5}
+            onPress={props.onPress}
         >
             <Text style={styles.text}>{props.text}</Text>
         </TouchableOpacity>

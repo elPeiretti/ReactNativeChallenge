@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
+import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
 import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
 import SudokuBoard from './SudokuBoard';
 
-const GameScreen = () => {
+const GameScreen = ({route, navigation}) => {
 
+    const difficulty = route.params;
     const [timeInSeconds, setTimeInSecods] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
@@ -20,8 +21,9 @@ const GameScreen = () => {
         setModalVisible(false);
     }
 
+    console.log(difficulty);
     return (
-        <View style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1}}>
             <Modal
             transparent={true}
             visible={modalVisible}
@@ -83,7 +85,7 @@ const GameScreen = () => {
                 ))}
             </View>
 
-        </View>
+        </SafeAreaView>
     );
 }
 

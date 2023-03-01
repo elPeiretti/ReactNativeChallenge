@@ -1,18 +1,23 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  useColorScheme,
-} from 'react-native';
 import DifficultyScreen from './components/ui/DifficultyScreen';
 import GameScreen from './components/ui/GameScreen';
 import MainScreen from './components/ui/MainScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <GameScreen/>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator 
+        initialRouteName='MainScreen'
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="MainScreen" component={MainScreen}/>
+        <Stack.Screen name="DifficultyScreen" component={DifficultyScreen}/>
+        <Stack.Screen name="GameScreen" component={GameScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Button from './Button';
 
-const MainScreen = () => {
+const MainScreen = ({navigation}) => {
 
     return (
         <View style={styles.main}>
@@ -16,7 +16,7 @@ const MainScreen = () => {
                 <Text style={styles.signature}> By elPeiretti</Text>
             </View>
             <View>
-                <Button text='Normal' style={{alignSelf: 'center'}}/>
+                <Button text='Normal' style={{alignSelf: 'center'}} onPress={()=>navigation.navigate('DifficultyScreen')}/>
             </View>
             <View style={{paddingTop: 10}}>
                 <Button text='Time-trial' style={{alignSelf: 'center'}}/>

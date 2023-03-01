@@ -6,8 +6,8 @@ const IconButton = (props) => {
         <View style={[styles.container, props.isSelected && {backgroundColor: 'rgba(0,0,255,0.2)'}]}>
             <Pressable onPress={props.onPress}>
                 <Image source={props.image} style={styles.image}/>
+                <Text style={styles.title}>{props.text}</Text>
             </Pressable>
-            <Text style={styles.title}>{props.text}</Text>
         </View>
     );
 }
@@ -25,11 +25,12 @@ const styles = StyleSheet.create({
     },
     image:{
         width: 30,
-        height: 30
+        height: 30,
+        alignSelf: 'center'
     },
     title:{
         fontFamily:'monospace',
         fontSize: 12,
-        color: '#000000'
+        color: '#000000',
     }
 });

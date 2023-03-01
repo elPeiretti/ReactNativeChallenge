@@ -26,7 +26,7 @@ const GameScreen = ({route, navigation}) => {
         setIsCounting(true);
         setModalVisible(false);
     }
-    
+
     return (
         <SafeAreaView style={{flex: 1}}>
             <Modal
@@ -50,7 +50,7 @@ const GameScreen = ({route, navigation}) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.board}>
-                <SudokuBoard/>
+                <SudokuBoard difficulty={difficulty}/>
             </View>
             <View style={styles.buttons}>
                 <IconButton 

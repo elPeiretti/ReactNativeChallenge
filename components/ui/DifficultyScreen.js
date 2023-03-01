@@ -11,16 +11,16 @@ const DifficultyScreen = ({navigation}) => {
                 <Button text='4x4'/>
             </View>
             <View style={styles.buttonContainer}>
-                <Button text='Easy' onPress={()=>navigation.navigate('GameScreen', 1)}/>
+                <Button text='Easy' onPress={()=>navigation.navigate('GameScreen', 2)}/>
             </View>
             <View style={styles.buttonContainer}>
-                <Button text='Medium' onPress={()=>navigation.navigate('GameScreen', 2)}/>
+                <Button text='Medium' onPress={()=>navigation.navigate('GameScreen', 1)}/>
             </View>
             <View style={styles.buttonContainer}>
-                <Button text='Hard' onPress={()=>navigation.navigate('GameScreen',3 )}/>
+                <Button text='Hard' onPress={()=>navigation.navigate('GameScreen', 0)}/>
             </View>
             <View style={styles.buttonContainer}>
-                <Button text='Impossible' onPress={()=>navigation.navigate('GameScreen', 4)}/>
+                <Button text='Impossible' onPress={()=>navigation.navigate('GameScreen', -1)}/>
             </View>
         </View>
     );

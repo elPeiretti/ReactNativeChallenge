@@ -79,7 +79,7 @@ const GameScreen = () => {
             </View>
             <View style={styles.numbers}>
                 {[1,2,3,4,5,6,7,8,9].map(n => (
-                    <NumberButton number={n}/>
+                    <NumberButton number={n} key={n}/>
                 ))}
             </View>
 

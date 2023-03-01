@@ -59,11 +59,12 @@ const SudokuBoard = (props) => {
                                 selectedCell === col && {backgroundColor: '#d6f9ff'},
                             ]}
                             onPress={()=>{setSelectedCell(col)}}>
-                            <Text 
+                            {matrix[col.i][col.j].visible ? (
+                                <Text 
                                 style={[{fontSize:22},
                                     selectedCell === col && {color: '#000000', fontWeight: 'bold'}]}>
                                         {col.value}
-                            </Text>
+                                </Text>) : null}
                         </Pressable>
                     ))}
                 </View>

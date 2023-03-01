@@ -34,10 +34,8 @@ const SudokuBoard = (props) => {
         for(var i = 0; i<9; i+=1){
             for (var j = 0; j<9; j+=1){
                 m[i][j].value = game.board[i][j];
-                if (m[i][j].value !== 0){
-                    m[i][j].prefilled = true;
-                    m[i][j].visible = true;
-                }
+                m[i][j].prefilled = m[i][j].value !== 0;
+                m[i][j].visible = m[i][j].value !== 0;
             }
         }
         setMatrix(m);
@@ -56,7 +54,7 @@ const SudokuBoard = (props) => {
                                 col.i == 0 && {borderTopWidth: 2},
                                 (col.i+1)%3 == 0 && {borderBottomWidth: 2},
                                 (col.j+1)%3 == 0 && {borderRightWidth: 2},
-                                selectedCell === col && {backgroundColor: '#d6f9ff'},
+                                selectedCell === col && {backgroundColor: '#d6f9ff', borderWidth: 1},
                             ]}
                             onPress={()=>{setSelectedCell(col)}}>
                             {matrix[col.i][col.j].visible ? (

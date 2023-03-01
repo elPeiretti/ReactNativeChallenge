@@ -16,7 +16,7 @@ const GameScreen = ({route, navigation}) => {
     useEffect(() => {
         const int = setInterval(() => {if (isCounting) setTimeInSecods(timeInSeconds+1)},1000);
         return () => {clearInterval(int)};
-    });
+    }, [timeInSeconds, isCounting]);
 
     function showPauseModal(){
         setIsCounting(false);

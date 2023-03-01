@@ -6,7 +6,7 @@
 ## Rules
 Here are the rules to follow:
 - 6 hours of work per day maximum.
-- No coding on the weekend.
+- No coding during the weekend.
 - Use of two branches at least. One of them has to be for the baseline.
 - Do several commits. Do not commit all the changes made in a day in one single commit.
 - Every merge to the baseline must be done through a Pull Request.
@@ -23,3 +23,14 @@ On day 1, the next things were done:
 - Coded the MainScreen and the DifficultyScreen. Will add Navigation later in the project.
 
 For day 2 I will be continuing with the UIs and will try to do the sudoku generation algorithm.
+
+## Day 2
+> Time dedicated: about 4 and a half hours
+
+On day 2, the next things were done:
+- I created the game UI (for 9x9 sudoku).
+- I added a modal for the pause dialog.
+
+The way the matrix is implemented may not be the best one, I may change it if I have time left.
+
+For day 3 I will implement the navigation between screens and will start with the sudoku generation algorithm. The 4x4 screen will be done later.

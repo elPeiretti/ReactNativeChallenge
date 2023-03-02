@@ -1,27 +1,29 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
 import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
+import Stopwatch from './Stopwatch';
 import SudokuBoard from './SudokuBoard';
 
-const GameScreen = () => {
+const GameScreen = ({route, navigation}) => {
 
-    const [timeInSeconds, setTimeInSecods] = useState(0);
+    const difficulty = route.params;
+    const [isCounting, setIsCounting] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
 
     function showPauseModal(){
-        //TODO -> pause timer
+        setIsCounting(false);
         setModalVisible(true);
     }
     function hidePauseModal(){
-        //TODO -> resume timer
+        setIsCounting(true);
         setModalVisible(false);
     }
 
     return (
-        <View style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1}}>
             <Modal
             transparent={true}
             visible={modalVisible}
@@ -35,15 +37,13 @@ const GameScreen = () => {
                 </View>
             </Modal>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
-                <Text style={styles.stopwatch}>
-                    {new Date(timeInSeconds*1000).toISOString().substring(11,19)}
-                </Text>
+                <Stopwatch isCounting={isCounting}/>
                 <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.board}>
-                <SudokuBoard/>
+                <SudokuBoard difficulty={difficulty}/>
             </View>
             <View style={styles.buttons}>
                 <IconButton 
@@ -79,22 +79,17 @@ const GameScreen = () => {
             </View>
             <View style={styles.numbers}>
                 {[1,2,3,4,5,6,7,8,9].map(n => (
-                    <NumberButton number={n}/>
+                    <NumberButton number={n} key={n}/>
                 ))}
             </View>
 
-        </View>
+        </SafeAreaView>
     );
 }
 
 export default GameScreen;
 
 const styles = StyleSheet.create({
-    stopwatch:{
-        alignSelf: 'center',
-        paddingEnd: 15,
-        fontSize: 20
-    },
     pauseButton:{
         borderWidth: 2,
         borderRadius: 10,

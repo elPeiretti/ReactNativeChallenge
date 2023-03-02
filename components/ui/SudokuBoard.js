@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { SolutionGenerator } from './SudokuGenerator';
 
-const SudokuBoard = () => {
-
-    const [solution, setSolution] = useState();
+const SudokuBoard = (props) => {
 
     const cell = {
         i: -1,
@@ -26,8 +25,22 @@ const SudokuBoard = () => {
         [{...cell, i:7, j:0}, {...cell, i:7, j:1}, {...cell, i:7, j:2}, {...cell, i:7, j:3}, {...cell, i:7, j:4}, {...cell, i:7, j:5}, {...cell, i:7, j:6}, {...cell, i:7, j:7}, {...cell, i:7, j:8}],
         [{...cell, i:8, j:0}, {...cell, i:8, j:1}, {...cell, i:8, j:2}, {...cell, i:8, j:3}, {...cell, i:8, j:4}, {...cell, i:8, j:5}, {...cell, i:8, j:6}, {...cell, i:8, j:7}, {...cell, i:8, j:8}],
     ]);
+    const [solution, setSolution] = useState();
+    const [selectedCell, setSelectedCell] = useState();
 
-    const [selectedCell, setSelectedCell] = useState({});
+    useEffect(() => { 
+        const game = SolutionGenerator(props.difficulty);
+        var m = JSON.parse(JSON.stringify(matrix));
+        for(var i = 0; i<9; i+=1){
+            for (var j = 0; j<9; j+=1){
+                m[i][j].value = game.board[i][j];
+                m[i][j].prefilled = m[i][j].value !== 0;
+                m[i][j].visible = m[i][j].value !== 0;
+            }
+        }
+        setMatrix(m);
+        setSolution(game.sol);
+    },[]);
 
     return (
         <View style={styles.board}>
@@ -41,14 +54,15 @@ const SudokuBoard = () => {
                                 col.i == 0 && {borderTopWidth: 2},
                                 (col.i+1)%3 == 0 && {borderBottomWidth: 2},
                                 (col.j+1)%3 == 0 && {borderRightWidth: 2},
-                                selectedCell === col && {backgroundColor: '#d6f9ff'},
+                                selectedCell == col && {backgroundColor: '#d6f9ff', borderWidth: 1},
                             ]}
                             onPress={()=>{setSelectedCell(col)}}>
-                            <Text 
+                            {matrix[col.i][col.j].visible ? (
+                                <Text 
                                 style={[{fontSize:22},
                                     selectedCell === col && {color: '#000000', fontWeight: 'bold'}]}>
                                         {col.value}
-                            </Text>
+                                </Text>) : null}
                         </Pressable>
                     ))}
                 </View>

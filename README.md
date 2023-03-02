@@ -34,3 +34,14 @@ On day 2, the next things were done:
 The way the matrix is implemented may not be the best one, I may change it if I have time left.
 
 For day 3 I will implement the navigation between screens and will start with the sudoku generation algorithm. The 4x4 screen will be done later.
+
+## Day 3
+> Time dedicated: about 4.5 hours
+
+On day 3, the next things were done:
+- I've implemented the navigation between screens.
+- I've done the sudoku generation algorithm. It is based on the premise that an unique solution is given if there are at least 17 hints.
+- I've tried to add the number insertion feature, but I got stuck and did not find a way to implement it.
+- I created a component for the stopwatch.
+
+For day 4 I will try to implement the number insertion feature, and also the annotations and hints. If I have time and some energy left I will do the solution-checker. (I do not know yet if I want to show when a number inserted is wrong or if I want to check the entire board after it's completed.)

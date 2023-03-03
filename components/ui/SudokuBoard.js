@@ -42,6 +42,19 @@ const SudokuBoard = (props) => {
         setSolution(game.sol);
     },[]);
 
+    useEffect(() => {
+        var num = props.onNumberPressed().curr;
+        if (num === undefined) return;
+
+        var m = JSON.parse(JSON.stringify(matrix));
+        var selectedCopy = m[selectedCell.i][selectedCell.j];
+        selectedCopy.value = num;
+        selectedCopy.visible = true;
+
+        setMatrix(m);
+        setSelectedCell(selectedCopy);
+    }, [props.onNumberPressed]);
+
     return (
         <View style={styles.board}>
             {matrix.map(row => (

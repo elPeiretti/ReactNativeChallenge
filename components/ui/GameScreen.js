@@ -12,6 +12,8 @@ const GameScreen = ({route, navigation}) => {
     const [isCounting, setIsCounting] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
+    const [lastNumber, setLastNumber] = useState();
+    const [currentNumber, setCurrentNumber] = useState();
 
     function showPauseModal(){
         setIsCounting(false);
@@ -43,7 +45,7 @@ const GameScreen = ({route, navigation}) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.board}>
-                <SudokuBoard difficulty={difficulty}/>
+                <SudokuBoard difficulty={difficulty} onNumberPressed={() => {return {curr: currentNumber, old: lastNumber};}}/>
             </View>
             <View style={styles.buttons}>
                 <IconButton 
@@ -79,7 +81,15 @@ const GameScreen = ({route, navigation}) => {
             </View>
             <View style={styles.numbers}>
                 {[1,2,3,4,5,6,7,8,9].map(n => (
-                    <NumberButton number={n} key={n}/>
+                    <NumberButton number={n} key={n} onPress={() => {
+                        // this might be weird but it works
+                        if (n == lastNumber)
+                            setLastNumber(undefined);
+                        else
+                            setLastNumber(currentNumber);
+                        
+                        setCurrentNumber(n);
+                    }}/>
                 ))}
             </View>
 

@@ -17,7 +17,7 @@ const GameScreen = ({route, navigation}) => {
         i: -1,
         j: -1,
         value: 2,
-        notes: [[]],
+        notes: [[0,0,0],[0,0,0],[0,0,0]],
         visible: false,
         ok: false
     }
@@ -71,10 +71,21 @@ const GameScreen = ({route, navigation}) => {
         var selectedCopy = m[selectedCell.i][selectedCell.j];
         if (selectedCopy.ok) return;
 
-        selectedCopy.value = num;
-        selectedCopy.visible = true;
-        selectedCopy.ok = num == solution[selectedCopy.i][selectedCopy.j];
-        
+        if(mode == 'write'){
+            selectedCopy.value = num;
+            selectedCopy.visible = true;
+            selectedCopy.ok = num == solution[selectedCopy.i][selectedCopy.j];
+            selectedCopy.notes = [[0,0,0],[0,0,0],[0,0,0]];
+        }
+        else{
+            // using if - else because ? operator breaks everything
+            if (selectedCopy.notes[Math.floor((num-1)/3)][(num-1)%3] == 0)
+                selectedCopy.notes[Math.floor((num-1)/3)][(num-1)%3] = 1;
+            else{
+                selectedCopy.notes[Math.floor((num-1)/3)][(num-1)%3] = 0;
+            }
+        }
+                
         setMatrix(m);
         setSelectedCell(selectedCopy);
     }
@@ -161,7 +172,21 @@ const GameScreen = ({route, navigation}) => {
                                             matrix[col.i][col.j].ok && {color: '#00c1ff'},
                                             !matrix[col.i][col.j].ok && {color: '#fe7878'}]}>
                                                 {col.value}
-                                        </Text>) : null}
+                                        </Text>) : 
+                                        (<View key={[col.i,col.j]} style={{flexDirection: 'column', height: 40, width: 40, justifyContent: 'center', alignItems: 'center'}}>
+                                            {matrix[col.i][col.j].notes.map((arr, i) => {
+                                                return (<View key={[arr,i]} style={{flexDirection: 'row'}}>
+                                                    {arr.map((visible, j) => {
+                                                        return (
+                                                            <View key={[i,j,col.i,col.j]} style={{paddingHorizontal: 2}}>
+                                                                {visible == 1? (<Text key={[i,j,col.i,col.j]} style={{fontSize: 9}}>{j+1+i*3}</Text>) : null}
+                                                            </View>
+                                                        );
+                                                    })}
+                                                </View>)})
+                                            }
+                                        </View>)
+                                    }
                                 </Pressable>
                             ))}
                         </View>
@@ -193,10 +218,12 @@ const GameScreen = ({route, navigation}) => {
                     text='hint' 
                     image={require('./icons/hint.png')}
                     onPress={()=>{
-                        if (mode == 'hint')
-                            setMode('write');
-                        else
-                            setMode('hint');
+                        if (selectedCell === undefined || selectedCell.ok) return;
+                        var m = JSON.parse(JSON.stringify(matrix));
+                        m[selectedCell.i][selectedCell.j].value = solution[selectedCell.i][selectedCell.j];
+                        m[selectedCell.i][selectedCell.j].ok = true;
+                        m[selectedCell.i][selectedCell.j].visible = true;
+                        setMatrix(m);
                     }}
                     isSelected={false}/>
                 <IconButton

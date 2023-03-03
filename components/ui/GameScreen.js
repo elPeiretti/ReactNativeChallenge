@@ -3,14 +3,15 @@ import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal, Pressabl
 import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
-import Stopwatch from './Stopwatch';
 import { SolutionGenerator } from './SudokuGenerator';
 
 const GameScreen = ({route, navigation}) => {
 
     const difficulty = route.params;
-    const [isCounting, setIsCounting] = useState(true);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [isCounting, setIsCounting] = useState(false);
+    const [pauseModalVisible, setpauseModalVisible] = useState(false);
+    const [finishModalVisible, setFinishModalVisible] = useState(false);
+    const [timeInSeconds, setTimeInSecods] = useState(0);
     const [mode, setMode] = useState('write');
     const cell = {
         i: -1,
@@ -48,15 +49,21 @@ const GameScreen = ({route, navigation}) => {
         }
         setMatrix(m);
         setSolution(game.sol);
+        setIsCounting(true);
     },[]);
+
+    useEffect(() => {
+        const int = setInterval(() => {if (isCounting) setTimeInSecods(timeInSeconds+1)},1000);
+        return () => {clearInterval(int)};
+    }, [timeInSeconds, isCounting]);
 
     function showPauseModal(){
         setIsCounting(false);
-        setModalVisible(true);
+        setpauseModalVisible(true);
     }
     function hidePauseModal(){
         setIsCounting(true);
-        setModalVisible(false);
+        setpauseModalVisible(false);
     }
 
     function onNumberPressed(num) {
@@ -72,22 +79,56 @@ const GameScreen = ({route, navigation}) => {
         setSelectedCell(selectedCopy);
     }
 
+    function secondsTohhmmss(t){
+        return new Date(timeInSeconds*1000).toISOString().substring(11,19)
+    }
+
+    function checkAndFinish(){
+        var finished = true;
+        for(var i=0; i<81; i+=1){
+            for(var j=0; j<81; j+=1){
+                finished = matrix[i][j].ok;
+            }
+        }
+
+        if (finished){
+            setIsCounting(false);
+        }
+    }
+
     return (
         <SafeAreaView style={{flex: 1}}>
             <Modal
             transparent={true}
-            visible={modalVisible}
-            onRequestClose={()=>{setModalVisible(!modalVisible)}}>
+            visible={pauseModalVisible}
+            onRequestClose={()=>{setpauseModalVisible(!pauseModalVisible)}}>
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <View style={styles.pauseModal}>
+                    <View style={styles.modal}>
                         <Text style={styles.modalTitle}>Game paused</Text>
                         <Button text='Resume' onPress={hidePauseModal}/>
                         <Button text='Exit' color='#ffd6d6'/>
                     </View>
                 </View>
             </Modal>
+            <Modal
+            transparent={true}
+            visible={true}
+            onRequestClose={()=>{setFinishModalVisible(!finishModalVisible)}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={styles.modal}>
+                        <Text style={styles.modalTitle}>You win!</Text>
+                        <Text>
+                            You completed the {difficulty == 2 ? 'easy': (difficulty == 1 ? 'medium' : 'hard')}
+                                Sudoku in: {secondsTohhmmss(timeInSeconds)}
+                        </Text>
+                        <Button text='Exit' color='#ffd6d6'/>
+                    </View>
+                </View>
+            </Modal>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
-                <Stopwatch isCounting={isCounting}/>
+                <Text style={styles.stopwatch}>
+                    {secondsTohhmmss(timeInSeconds)}
+                </Text>
                 <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>
@@ -155,7 +196,7 @@ const GameScreen = ({route, navigation}) => {
                 <IconButton
                     text='finish' 
                     image={require('./icons/finish.png')}
-                    onPress={()=>{}}
+                    onPress={checkAndFinish}
                     isSelected={false}/>
 
             </View>
@@ -181,7 +222,7 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: '#ffe8aa'
     },
-    pauseModal:{
+    modal:{
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
@@ -192,7 +233,6 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 5,
         padding: 20,
-
     },
     modalTitle:{
         fontFamily: 'monospace',
@@ -200,6 +240,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000000',
         paddingBottom: 40
+    },
+    stopwatch:{
+        alignSelf: 'center',
+        paddingEnd: 15,
+        fontSize: 20
     },
     boardContainer:{
         paddingTop: 40

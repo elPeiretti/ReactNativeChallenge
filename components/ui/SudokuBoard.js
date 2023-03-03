@@ -10,7 +10,7 @@ const SudokuBoard = (props) => {
         value: 2,
         notes: [[]],
         visible: false,
-        prefilled: false
+        ok: false
     }
 
     //best thing that came to my mind without googling hehe
@@ -34,29 +34,30 @@ const SudokuBoard = (props) => {
         for(var i = 0; i<9; i+=1){
             for (var j = 0; j<9; j+=1){
                 m[i][j].value = game.board[i][j];
-                m[i][j].prefilled = m[i][j].value !== 0;
                 m[i][j].visible = m[i][j].value !== 0;
+                m[i][j].ok = m[i][j].value !== 0;
             }
         }
         setMatrix(m);
         setSolution(game.sol);
     },[]);
 
+    //this executes every time a number is pressed
     useEffect(() => {
         var num = props.onNumberPressed().curr;
         if (num === undefined) return;
 
         var m = JSON.parse(JSON.stringify(matrix));
         var selectedCopy = m[selectedCell.i][selectedCell.j];
-        if (selectedCopy.prefilled) return;
+        if (selectedCopy.ok) return;
 
         selectedCopy.value = num;
         selectedCopy.visible = true;
-
+        selectedCopy.ok = num == solution[selectedCopy.i][selectedCopy.j];
+        
         setMatrix(m);
         setSelectedCell(selectedCopy);
 
-        //todo check if board is finished
     }, [props.onNumberPressed]);
 
     return (
@@ -78,7 +79,8 @@ const SudokuBoard = (props) => {
                                 <Text 
                                 style={[{fontSize:22},
                                     selectedCell === col && {color: '#000000', fontWeight: 'bold'},
-                                    matrix[col.i][col.j].prefilled && {color: '#00c1ff'}]}>
+                                    matrix[col.i][col.j].ok && {color: '#00c1ff'},
+                                    !matrix[col.i][col.j].ok && {color: '#fe7878'}]}>
                                         {col.value}
                                 </Text>) : null}
                         </Pressable>

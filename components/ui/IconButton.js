@@ -1,13 +1,13 @@
 import React from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 const IconButton = (props) => {
     return (
         <View style={[styles.container, props.isSelected && {backgroundColor: 'rgba(0,0,255,0.2)'}]}>
-            <Pressable onPress={props.onPress}>
+            <TouchableOpacity onPress={props.onPress}>
                 <Image source={props.image} style={styles.image}/>
                 <Text style={styles.title}>{props.text}</Text>
-            </Pressable>
+            </TouchableOpacity>
         </View>
     );
 }

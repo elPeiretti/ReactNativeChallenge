@@ -110,7 +110,7 @@ const GameScreen = ({route, navigation}) => {
                     <View style={styles.modal}>
                         <Text style={styles.modalTitle}>Game paused</Text>
                         <Button text='Resume' onPress={hidePauseModal}/>
-                        <Button text='Exit' color='#ffd6d6'/>
+                        <Button text='Exit' color='#ffd6d6' onPress={() => navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}/>
                     </View>
                 </View>
             </Modal>
@@ -173,10 +173,10 @@ const GameScreen = ({route, navigation}) => {
                     text='erase' 
                     image={require('./icons/eraser.png')} 
                     onPress={()=>{
-                        if (mode == 'erase')
-                            setMode('write');
-                        else
-                            setMode('erase');
+                        if (selectedCell === undefined || selectedCell.ok) return;
+                        var m = JSON.parse(JSON.stringify(matrix));
+                        m[selectedCell.i][selectedCell.j].visible = false;
+                        setMatrix(m);
                     }}
                     isSelected={false}/>
                 <IconButton 

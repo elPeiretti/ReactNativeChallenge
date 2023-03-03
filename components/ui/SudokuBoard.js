@@ -48,11 +48,15 @@ const SudokuBoard = (props) => {
 
         var m = JSON.parse(JSON.stringify(matrix));
         var selectedCopy = m[selectedCell.i][selectedCell.j];
+        if (selectedCopy.prefilled) return;
+
         selectedCopy.value = num;
         selectedCopy.visible = true;
 
         setMatrix(m);
         setSelectedCell(selectedCopy);
+
+        //todo check if board is finished
     }, [props.onNumberPressed]);
 
     return (
@@ -73,7 +77,8 @@ const SudokuBoard = (props) => {
                             {matrix[col.i][col.j].visible ? (
                                 <Text 
                                 style={[{fontSize:22},
-                                    selectedCell === col && {color: '#000000', fontWeight: 'bold'}]}>
+                                    selectedCell === col && {color: '#000000', fontWeight: 'bold'},
+                                    matrix[col.i][col.j].prefilled && {color: '#00c1ff'}]}>
                                         {col.value}
                                 </Text>) : null}
                         </Pressable>

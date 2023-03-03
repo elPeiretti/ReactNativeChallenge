@@ -131,7 +131,7 @@ const GameScreen = ({route, navigation}) => {
                         else
                             setMode('erase');
                     }}
-                    isSelected={mode == 'erase'}/>
+                    isSelected={false}/>
                 <IconButton 
                     text='annotate'
                     image={require('./icons/annotate.png')}
@@ -151,7 +151,7 @@ const GameScreen = ({route, navigation}) => {
                         else
                             setMode('hint');
                     }}
-                    isSelected={mode == 'hint'}/>
+                    isSelected={false}/>
                 <IconButton
                     text='finish' 
                     image={require('./icons/finish.png')}

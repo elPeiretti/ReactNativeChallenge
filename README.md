@@ -45,3 +45,8 @@ On day 3, the next things were done:
 - I created a component for the stopwatch.
 
 For day 4 I will try to implement the number insertion feature, and also the annotations and hints. If I have time and some energy left I will do the solution-checker. (I do not know yet if I want to show when a number inserted is wrong or if I want to check the entire board after it's completed.)
+
+## Day 4
+> Time dedicated: 0 hours
+
+On day 4 I wasn't feeling motivated, so I decided to take a day off.

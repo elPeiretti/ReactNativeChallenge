@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
+import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal, Pressable } from 'react-native';
 import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
 import Stopwatch from './Stopwatch';
-import SudokuBoard from './SudokuBoard';
+import { SolutionGenerator } from './SudokuGenerator';
 
 const GameScreen = ({route, navigation}) => {
 
@@ -12,8 +12,43 @@ const GameScreen = ({route, navigation}) => {
     const [isCounting, setIsCounting] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
-    const [lastNumber, setLastNumber] = useState();
-    const [currentNumber, setCurrentNumber] = useState();
+    const cell = {
+        i: -1,
+        j: -1,
+        value: 2,
+        notes: [[]],
+        visible: false,
+        ok: false
+    }
+
+    //best thing that came to my mind without googling hehe
+    const [matrix, setMatrix] = useState([
+        [{...cell, i:0, j:0}, {...cell, i:0, j:1}, {...cell, i:0, j:2}, {...cell, i:0, j:3}, {...cell, i:0, j:4}, {...cell, i:0, j:5}, {...cell, i:0, j:6}, {...cell, i:0, j:7}, {...cell, i:0, j:8}],
+        [{...cell, i:1, j:0}, {...cell, i:1, j:1}, {...cell, i:1, j:2}, {...cell, i:1, j:3}, {...cell, i:1, j:4}, {...cell, i:1, j:5}, {...cell, i:1, j:6}, {...cell, i:1, j:7}, {...cell, i:1, j:8}],
+        [{...cell, i:2, j:0}, {...cell, i:2, j:1}, {...cell, i:2, j:2}, {...cell, i:2, j:3}, {...cell, i:2, j:4}, {...cell, i:2, j:5}, {...cell, i:2, j:6}, {...cell, i:2, j:7}, {...cell, i:2, j:8}],
+        [{...cell, i:3, j:0}, {...cell, i:3, j:1}, {...cell, i:3, j:2}, {...cell, i:3, j:3}, {...cell, i:3, j:4}, {...cell, i:3, j:5}, {...cell, i:3, j:6}, {...cell, i:3, j:7}, {...cell, i:3, j:8}],
+        [{...cell, i:4, j:0}, {...cell, i:4, j:1}, {...cell, i:4, j:2}, {...cell, i:4, j:3}, {...cell, i:4, j:4}, {...cell, i:4, j:5}, {...cell, i:4, j:6}, {...cell, i:4, j:7}, {...cell, i:4, j:8}],
+        [{...cell, i:5, j:0}, {...cell, i:5, j:1}, {...cell, i:5, j:2}, {...cell, i:5, j:3}, {...cell, i:5, j:4}, {...cell, i:5, j:5}, {...cell, i:5, j:6}, {...cell, i:5, j:7}, {...cell, i:5, j:8}],
+        [{...cell, i:6, j:0}, {...cell, i:6, j:1}, {...cell, i:6, j:2}, {...cell, i:6, j:3}, {...cell, i:6, j:4}, {...cell, i:6, j:5}, {...cell, i:6, j:6}, {...cell, i:6, j:7}, {...cell, i:6, j:8}],
+        [{...cell, i:7, j:0}, {...cell, i:7, j:1}, {...cell, i:7, j:2}, {...cell, i:7, j:3}, {...cell, i:7, j:4}, {...cell, i:7, j:5}, {...cell, i:7, j:6}, {...cell, i:7, j:7}, {...cell, i:7, j:8}],
+        [{...cell, i:8, j:0}, {...cell, i:8, j:1}, {...cell, i:8, j:2}, {...cell, i:8, j:3}, {...cell, i:8, j:4}, {...cell, i:8, j:5}, {...cell, i:8, j:6}, {...cell, i:8, j:7}, {...cell, i:8, j:8}],
+    ]);
+    const [solution, setSolution] = useState();
+    const [selectedCell, setSelectedCell] = useState();
+
+    useEffect(() => { 
+        const game = SolutionGenerator(difficulty);
+        var m = JSON.parse(JSON.stringify(matrix));
+        for(var i = 0; i<9; i+=1){
+            for (var j = 0; j<9; j+=1){
+                m[i][j].value = game.board[i][j];
+                m[i][j].visible = m[i][j].value !== 0;
+                m[i][j].ok = m[i][j].value !== 0;
+            }
+        }
+        setMatrix(m);
+        setSolution(game.sol);
+    },[]);
 
     function showPauseModal(){
         setIsCounting(false);
@@ -22,6 +57,19 @@ const GameScreen = ({route, navigation}) => {
     function hidePauseModal(){
         setIsCounting(true);
         setModalVisible(false);
+    }
+
+    function onNumberPressed(num) {
+        var m = JSON.parse(JSON.stringify(matrix));
+        var selectedCopy = m[selectedCell.i][selectedCell.j];
+        if (selectedCopy.ok) return;
+
+        selectedCopy.value = num;
+        selectedCopy.visible = true;
+        selectedCopy.ok = num == solution[selectedCopy.i][selectedCopy.j];
+        
+        setMatrix(m);
+        setSelectedCell(selectedCopy);
     }
 
     return (
@@ -44,8 +92,34 @@ const GameScreen = ({route, navigation}) => {
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.board}>
-                <SudokuBoard difficulty={difficulty} onNumberPressed={() => {return {curr: currentNumber, old: lastNumber};}}/>
+            <View style={styles.boardContainer}>
+                <View style={styles.board}>
+                    {matrix.map(row => (
+                        <View style={styles.boardRow} key={row[0].i}>
+                            {row.map(col => (
+                                <Pressable key={[col.i, col.j]}
+                                    style={[
+                                        styles.boardCell,
+                                        col.j == 0 && {borderLeftWidth: 2},
+                                        col.i == 0 && {borderTopWidth: 2},
+                                        (col.i+1)%3 == 0 && {borderBottomWidth: 2},
+                                        (col.j+1)%3 == 0 && {borderRightWidth: 2},
+                                        selectedCell == col && {backgroundColor: '#d6f9ff', borderWidth: 1},
+                                    ]}
+                                    onPress={()=>{setSelectedCell(col)}}>
+                                    {matrix[col.i][col.j].visible ? (
+                                        <Text 
+                                        style={[{fontSize:22},
+                                            selectedCell === col && {color: '#000000', fontWeight: 'bold'},
+                                            matrix[col.i][col.j].ok && {color: '#00c1ff'},
+                                            !matrix[col.i][col.j].ok && {color: '#fe7878'}]}>
+                                                {col.value}
+                                        </Text>) : null}
+                                </Pressable>
+                            ))}
+                        </View>
+                    ))}
+                </View>
             </View>
             <View style={styles.buttons}>
                 <IconButton 
@@ -78,18 +152,16 @@ const GameScreen = ({route, navigation}) => {
                             setMode('hint');
                     }}
                     isSelected={mode == 'hint'}/>
+                <IconButton
+                    text='finish' 
+                    image={require('./icons/finish.png')}
+                    onPress={()=>{}}
+                    isSelected={false}/>
+
             </View>
             <View style={styles.numbers}>
-                {[1,2,3,4,5,6,7,8,9].map(n => (
-                    <NumberButton number={n} key={n} onPress={() => {
-                        // this might be weird but it works
-                        if (n == lastNumber)
-                            setLastNumber(undefined);
-                        else
-                            setLastNumber(currentNumber);
-                        
-                        setCurrentNumber(n);
-                    }}/>
+                {[1,2,3,4,5,6,7,8,9].map(num => (
+                    <NumberButton number={num} key={num} onPress={() => {onNumberPressed(num)}}/>
                 ))}
             </View>
 
@@ -129,8 +201,23 @@ const styles = StyleSheet.create({
         color: '#000000',
         paddingBottom: 40
     },
-    board:{
+    boardContainer:{
         paddingTop: 40
+    },
+    board:{
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    boardRow:{
+        flexDirection: 'row',
+    },
+    boardCell:{
+        borderWidth: 0.5,
+        width: 40,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F0F0F0'
     },
     buttons:{
         flexDirection: 'row',

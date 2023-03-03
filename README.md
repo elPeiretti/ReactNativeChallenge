@@ -50,3 +50,14 @@ For day 4 I will try to implement the number insertion feature, and also the ann
 > Time dedicated: 0 hours
 
 On day 4 I wasn't feeling motivated, so I decided to take a day off.
+
+## Day 5
+> Time dedicated: about 4.5 hours
+
+On day 5, the next things were done:
+- I've implemented the number insertion, annotawhention and hint features.
+- I've implemented the number position check in the number insertion.
+- I've added a 'finish' button to end the game. If the board is complete and correct, a modal pop-ups. Otherwise, the app shows an alert.
+- I've removed the 'Stopwatch' and 'SudokuBoard' components because I did not find a way to "communicate" between components. My idea was to use something like an Interface, but I couldn't find any. This created an efficiency problem; everytime the clock updates, every component re-renders (not ideal at all).
+
+On day 6 I will test the game and if I feel that it's working ok, I will try to find a solution to the clock updates.

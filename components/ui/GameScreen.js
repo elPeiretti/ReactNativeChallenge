@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
@@ -56,7 +56,7 @@ const GameScreen = ({route, navigation}) => {
         const int = setInterval(() => {if (isCounting) setTimeInSecods(timeInSeconds+1)},1000);
         return () => {clearInterval(int)};
     }, [timeInSeconds, isCounting]);
-
+    
     function showPauseModal(){
         setIsCounting(false);
         setpauseModalVisible(true);
@@ -85,14 +85,18 @@ const GameScreen = ({route, navigation}) => {
 
     function checkAndFinish(){
         var finished = true;
-        for(var i=0; i<81; i+=1){
-            for(var j=0; j<81; j+=1){
+        for(var i=0; i<9; i+=1){
+            for(var j=0; j<9; j+=1){
                 finished = matrix[i][j].ok;
             }
         }
 
         if (finished){
             setIsCounting(false);
+            setFinishModalVisible(true);
+        }
+        else{
+            Alert.alert('whoops!', 'You haven\'t finished yet!');
         }
     }
 
@@ -112,16 +116,18 @@ const GameScreen = ({route, navigation}) => {
             </Modal>
             <Modal
             transparent={true}
-            visible={true}
+            visible={finishModalVisible}
             onRequestClose={()=>{setFinishModalVisible(!finishModalVisible)}}>
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 10}}>
                     <View style={styles.modal}>
-                        <Text style={styles.modalTitle}>You win!</Text>
-                        <Text>
-                            You completed the {difficulty == 2 ? 'easy': (difficulty == 1 ? 'medium' : 'hard')}
-                                Sudoku in: {secondsTohhmmss(timeInSeconds)}
+                        <Text style={[styles.modalTitle, {paddingBottom: 0}]}>You win!</Text>
+                        <Text style={{fontSize: 18, textAlign: 'center', paddingBottom: 10}}>
+                            You completed the {difficulty == 2 ? 'easy': (difficulty == 1 ? 'medium' : 'hard')} Sudoku in:
                         </Text>
-                        <Button text='Exit' color='#ffd6d6'/>
+                        <Text style={{fontSize: 28, fontWeight: 'bold', fontFamily: 'monospace', paddingBottom: 10}}>
+                            {secondsTohhmmss(timeInSeconds)}
+                        </Text>
+                        <Button text='Continue' onPress={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
                     </View>
                 </View>
             </Modal>

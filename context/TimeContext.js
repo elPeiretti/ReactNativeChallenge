@@ -6,8 +6,16 @@ export const ContextProvider = ({children}) => {
     
     const [timeInSeconds, setTimeInSecods] = useState(0);
 
+    const setTime = (seconds) => {
+        setTimeInSecods(seconds);
+    }
+
+    const updateTime = () => {
+        setTimeInSecods(timeInSeconds+1);
+    }
+
     return (
-        <TimeContext.Provider value={{time: timeInSeconds}}>
+        <TimeContext.Provider value={{time: timeInSeconds, setter: setTime, increment: updateTime}}>
             {children}
         </TimeContext.Provider>
     );

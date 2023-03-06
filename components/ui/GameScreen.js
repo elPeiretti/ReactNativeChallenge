@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
-import { ContextProvider } from '../../context/TimeContext';
+import { ContextProvider, TimeContext } from '../../context/TimeContext';
 import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
@@ -14,6 +14,7 @@ const GameScreen = ({route, navigation}) => {
     const [finishModalVisible, setFinishModalVisible] = useState(false);
     const [timeInSeconds, setTimeInSecods] = useState(0);
     const [mode, setMode] = useState('write');
+    const time = useContext(TimeContext);
     const cell = {
         i: -1,
         j: -1,

@@ -202,7 +202,6 @@ const GameScreen = ({route, navigation}) => {
                     image={require('./icons/finish.png')}
                     onPress={checkAndFinish}
                     isSelected={false}/>
-
             </View>
             <View style={styles.numbers}>
                 {[1,2,3,4,5,6,7,8,9].map(num => (

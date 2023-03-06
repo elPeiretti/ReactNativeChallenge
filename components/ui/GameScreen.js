@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
+import { ContextProvider, TimeContext } from '../../context/TimeContext';
 import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
+import Stopwatch, { secondsTohhmmss } from './Stopwatch';
 import { SolutionGenerator } from './SudokuGenerator';
+import FinishModal from './FinishModal';
+import PauseModal from './PauseModal';
 
 const GameScreen = ({route, navigation}) => {
 
@@ -11,8 +15,8 @@ const GameScreen = ({route, navigation}) => {
     const [isCounting, setIsCounting] = useState(false);
     const [pauseModalVisible, setpauseModalVisible] = useState(false);
     const [finishModalVisible, setFinishModalVisible] = useState(false);
-    const [timeInSeconds, setTimeInSecods] = useState(0);
     const [mode, setMode] = useState('write');
+    const ctx = useContext(TimeContext);
     const cell = {
         i: -1,
         j: -1,
@@ -52,11 +56,6 @@ const GameScreen = ({route, navigation}) => {
         setIsCounting(true);
     },[]);
 
-    useEffect(() => {
-        const int = setInterval(() => {if (isCounting) setTimeInSecods(timeInSeconds+1)},1000);
-        return () => {clearInterval(int)};
-    }, [timeInSeconds, isCounting]);
-    
     function showPauseModal(){
         setIsCounting(false);
         setpauseModalVisible(true);
@@ -65,7 +64,6 @@ const GameScreen = ({route, navigation}) => {
         setIsCounting(true);
         setpauseModalVisible(false);
     }
-
     function onNumberPressed(num) {
         var m = JSON.parse(JSON.stringify(matrix));
         var selectedCopy = m[selectedCell.i][selectedCell.j];
@@ -90,10 +88,6 @@ const GameScreen = ({route, navigation}) => {
         setSelectedCell(selectedCopy);
     }
 
-    function secondsTohhmmss(t){
-        return new Date(timeInSeconds*1000).toISOString().substring(11,19)
-    }
-
     function checkAndFinish(){
         var finished = true;
         for(var i=0; i<9; i+=1){
@@ -110,42 +104,19 @@ const GameScreen = ({route, navigation}) => {
             Alert.alert('whoops!', 'You haven\'t finished yet!');
         }
     }
-
     return (
-        <SafeAreaView style={{flex: 1}}>
-            <Modal
-            transparent={true}
-            visible={pauseModalVisible}
-            onRequestClose={()=>{setpauseModalVisible(!pauseModalVisible)}}>
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <View style={styles.modal}>
-                        <Text style={styles.modalTitle}>Game paused</Text>
-                        <Button text='Resume' onPress={hidePauseModal}/>
-                        <Button text='Exit' color='#ffd6d6' onPress={() => navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}/>
-                    </View>
-                </View>
-            </Modal>
-            <Modal
-            transparent={true}
-            visible={finishModalVisible}
-            onRequestClose={()=>{setFinishModalVisible(!finishModalVisible)}}>
-                <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 10}}>
-                    <View style={styles.modal}>
-                        <Text style={[styles.modalTitle, {paddingBottom: 0}]}>You win!</Text>
-                        <Text style={{fontSize: 18, textAlign: 'center', paddingBottom: 10}}>
-                            You completed the {difficulty == 2 ? 'easy': (difficulty == 1 ? 'medium' : 'hard')} Sudoku in:
-                        </Text>
-                        <Text style={{fontSize: 28, fontWeight: 'bold', fontFamily: 'monospace', paddingBottom: 10}}>
-                            {secondsTohhmmss(timeInSeconds)}
-                        </Text>
-                        <Button text='Continue' onPress={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
-                    </View>
-                </View>
-            </Modal>
+        <ContextProvider>
+            <SafeAreaView style={{flex: 1}}>
+            <PauseModal 
+                isVisible={pauseModalVisible}
+                onResumePressed={hidePauseModal}
+                onExitPressed={() => navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}/>
+            <FinishModal 
+                isVisible={finishModalVisible} 
+                difficulty={difficulty} 
+                onPressContinue={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
-                <Text style={styles.stopwatch}>
-                    {secondsTohhmmss(timeInSeconds)}
-                </Text>
+                <Stopwatch startTime={0} isCounting={isCounting}/>
                 <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>
@@ -231,15 +202,14 @@ const GameScreen = ({route, navigation}) => {
                     image={require('./icons/finish.png')}
                     onPress={checkAndFinish}
                     isSelected={false}/>
-
             </View>
             <View style={styles.numbers}>
                 {[1,2,3,4,5,6,7,8,9].map(num => (
                     <NumberButton number={num} key={num} onPress={() => {onNumberPressed(num)}}/>
                 ))}
             </View>
-
         </SafeAreaView>
+    </ContextProvider>
     );
 }
 
@@ -254,30 +224,6 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         backgroundColor: '#ffe8aa'
-    },
-    modal:{
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        elevation: 10,
-        shadowColor: '#000000',
-        backgroundColor: 'white',
-        borderRadius: 20,
-        borderWidth: 5,
-        padding: 20,
-    },
-    modalTitle:{
-        fontFamily: 'monospace',
-        fontSize: 40,
-        fontWeight: 'bold',
-        color: '#000000',
-        paddingBottom: 40
-    },
-    stopwatch:{
-        alignSelf: 'center',
-        paddingEnd: 15,
-        fontSize: 20
     },
     boardContainer:{
         paddingTop: 40

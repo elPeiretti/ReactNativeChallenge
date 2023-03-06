@@ -7,9 +7,12 @@ const DifficultyScreen = ({navigation}) => {
     return (
         <View style={styles.screen}>
             <Text style={styles.title}>Choose Difficulty</Text>
+            {/*
+            Might implement it later 
             <View style={styles.buttonContainer}>
-                <Button text='4x4'/>
+                <Button text='4x4' onPress={()=>navigation.navigate('GameScreen', 10)}/>
             </View>
+            */}
             <View style={styles.buttonContainer}>
                 <Button text='Easy' onPress={()=>navigation.navigate('GameScreen', 2)}/>
             </View>
@@ -19,9 +22,11 @@ const DifficultyScreen = ({navigation}) => {
             <View style={styles.buttonContainer}>
                 <Button text='Hard' onPress={()=>navigation.navigate('GameScreen', 0)}/>
             </View>
+            {/*
             <View style={styles.buttonContainer}>
                 <Button text='Impossible' onPress={()=>navigation.navigate('GameScreen', -1)}/>
             </View>
+            */}
         </View>
     );
 }

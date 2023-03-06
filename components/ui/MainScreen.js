@@ -19,7 +19,7 @@ const MainScreen = ({navigation}) => {
                 <Button text='Normal' style={{alignSelf: 'center'}} onPress={()=>navigation.navigate('DifficultyScreen')}/>
             </View>
             <View style={{paddingTop: 10}}>
-                <Button text='Time-trial' style={{alignSelf: 'center'}}/>
+                <Button text='WIP: Time-trial' style={{alignSelf: 'center', backgroundColor: '#bdbdbd'}}/>
             </View>
             <View style={{paddingTop: 200}}>
                 <Button text='Exit' color='#ffd6d6' style={{alignSelf: 'center'}}/>

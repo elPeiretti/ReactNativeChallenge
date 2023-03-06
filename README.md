@@ -61,3 +61,10 @@ On day 5, the next things were done:
 - I've removed the 'Stopwatch' and 'SudokuBoard' components because I did not find a way to "communicate" between components. My idea was to use something like an Interface, but I couldn't find any. This created an efficiency problem; everytime the clock updates, every component re-renders (not ideal at all).
 
 On day 6 I will test the game and if I feel that it's working ok, I will try to find a solution to the clock updates.
+
+## Day 6
+> Time dedicated:
+
+On day 6, the next things were done:
+- Re-implemented the stopwatch component.
+- Implemented the use of Context for the time. I thought that if I added context to the current time, GameScreen would stop rendering every second. Though, that was not the case, so I realized that I could create a component for each modal, (instead of having them written in GameScreen.js), removing the re-rendering (only the FinishModal re-renders, which may be more efficient)

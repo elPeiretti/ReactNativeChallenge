@@ -6,6 +6,7 @@ import IconButton from './IconButton';
 import NumberButton from './NumberButton';
 import Stopwatch, { secondsTohhmmss } from './Stopwatch';
 import { SolutionGenerator } from './SudokuGenerator';
+import FinishModal from './FinishModal';
 
 const GameScreen = ({route, navigation}) => {
 
@@ -53,7 +54,7 @@ const GameScreen = ({route, navigation}) => {
         setSolution(game.sol);
         setIsCounting(true);
     },[]);
-    
+
     function showPauseModal(){
         setIsCounting(false);
         setpauseModalVisible(true);
@@ -102,133 +103,121 @@ const GameScreen = ({route, navigation}) => {
             Alert.alert('whoops!', 'You haven\'t finished yet!');
         }
     }
-
     return (
-        <SafeAreaView style={{flex: 1}}>
-        <Modal
-        transparent={true}
-        visible={pauseModalVisible}
-        onRequestClose={()=>{setpauseModalVisible(!pauseModalVisible)}}>
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <View style={styles.modal}>
-                    <Text style={styles.modalTitle}>Game paused</Text>
-                    <Button text='Resume' onPress={hidePauseModal}/>
-                    <Button text='Exit' color='#ffd6d6' onPress={() => navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}/>
-                </View>
-            </View>
-        </Modal>
-        <Modal
-        transparent={true}
-        visible={finishModalVisible}
-        onRequestClose={()=>{setFinishModalVisible(!finishModalVisible)}}>
-            <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 10}}>
-                <View style={styles.modal}>
-                    <Text style={[styles.modalTitle, {paddingBottom: 0}]}>You win!</Text>
-                    <Text style={{fontSize: 18, textAlign: 'center', paddingBottom: 10}}>
-                        You completed the {difficulty == 2 ? 'easy': (difficulty == 1 ? 'medium' : 'hard')} Sudoku in:
-                    </Text>
-                    <Text style={{fontSize: 28, fontWeight: 'bold', fontFamily: 'monospace', paddingBottom: 10}}>
-                        {secondsTohhmmss(ctx.time)}
-                    </Text>
-                    <Button text='Continue' onPress={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
-                </View>
-            </View>
-        </Modal>
-        <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
-            <Stopwatch startTime={0} isCounting={isCounting}/>
-            <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
-                <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.boardContainer}>
-            <View style={styles.board}>
-                {matrix.map(row => (
-                    <View style={styles.boardRow} key={row[0].i}>
-                        {row.map(col => (
-                            <Pressable key={[col.i, col.j]}
-                                style={[
-                                    styles.boardCell,
-                                    col.j == 0 && {borderLeftWidth: 2},
-                                    col.i == 0 && {borderTopWidth: 2},
-                                    (col.i+1)%3 == 0 && {borderBottomWidth: 2},
-                                    (col.j+1)%3 == 0 && {borderRightWidth: 2},
-                                    selectedCell == col && {backgroundColor: '#d6f9ff', borderWidth: 1},
-                                ]}
-                                onPress={()=>{setSelectedCell(col)}}>
-                                {matrix[col.i][col.j].visible ? (
-                                    <Text 
-                                    style={[{fontSize:22},
-                                        selectedCell === col && {color: '#000000', fontWeight: 'bold'},
-                                        matrix[col.i][col.j].ok && {color: '#00c1ff'},
-                                        !matrix[col.i][col.j].ok && {color: '#fe7878'}]}>
-                                            {col.value}
-                                    </Text>) : 
-                                    (<View key={[col.i,col.j]} style={{flexDirection: 'column', height: 40, width: 40, justifyContent: 'center', alignItems: 'center'}}>
-                                        {matrix[col.i][col.j].notes.map((arr, i) => {
-                                            return (<View key={[arr,i]} style={{flexDirection: 'row'}}>
-                                                {arr.map((visible, j) => {
-                                                    return (
-                                                        <View key={[i,j,col.i,col.j]} style={{paddingHorizontal: 2}}>
-                                                            {visible == 1? (<Text key={[i,j,col.i,col.j]} style={{fontSize: 9}}>{j+1+i*3}</Text>) : null}
-                                                        </View>
-                                                    );
-                                                })}
-                                            </View>)})
-                                        }
-                                    </View>)
-                                }
-                            </Pressable>
-                        ))}
+        <ContextProvider>
+            <SafeAreaView style={{flex: 1}}>
+            <Modal
+            transparent={true}
+            visible={pauseModalVisible}
+            onRequestClose={()=>{setpauseModalVisible(!pauseModalVisible)}}>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={styles.modal}>
+                        <Text style={styles.modalTitle}>Game paused</Text>
+                        <Button text='Resume' onPress={hidePauseModal}/>
+                        <Button text='Exit' color='#ffd6d6' onPress={() => navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}/>
                     </View>
+                </View>
+            </Modal>
+            <FinishModal 
+                isVisible={finishModalVisible} 
+                difficulty={difficulty} 
+                onPressContinue={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
+            <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
+                <Stopwatch startTime={0} isCounting={isCounting}/>
+                <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
+                    <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.boardContainer}>
+                <View style={styles.board}>
+                    {matrix.map(row => (
+                        <View style={styles.boardRow} key={row[0].i}>
+                            {row.map(col => (
+                                <Pressable key={[col.i, col.j]}
+                                    style={[
+                                        styles.boardCell,
+                                        col.j == 0 && {borderLeftWidth: 2},
+                                        col.i == 0 && {borderTopWidth: 2},
+                                        (col.i+1)%3 == 0 && {borderBottomWidth: 2},
+                                        (col.j+1)%3 == 0 && {borderRightWidth: 2},
+                                        selectedCell == col && {backgroundColor: '#d6f9ff', borderWidth: 1},
+                                    ]}
+                                    onPress={()=>{setSelectedCell(col)}}>
+                                    {matrix[col.i][col.j].visible ? (
+                                        <Text 
+                                        style={[{fontSize:22},
+                                            selectedCell === col && {color: '#000000', fontWeight: 'bold'},
+                                            matrix[col.i][col.j].ok && {color: '#00c1ff'},
+                                            !matrix[col.i][col.j].ok && {color: '#fe7878'}]}>
+                                                {col.value}
+                                        </Text>) : 
+                                        (<View key={[col.i,col.j]} style={{flexDirection: 'column', height: 40, width: 40, justifyContent: 'center', alignItems: 'center'}}>
+                                            {matrix[col.i][col.j].notes.map((arr, i) => {
+                                                return (<View key={[arr,i]} style={{flexDirection: 'row'}}>
+                                                    {arr.map((visible, j) => {
+                                                        return (
+                                                            <View key={[i,j,col.i,col.j]} style={{paddingHorizontal: 2}}>
+                                                                {visible == 1? (<Text key={[i,j,col.i,col.j]} style={{fontSize: 9}}>{j+1+i*3}</Text>) : null}
+                                                            </View>
+                                                        );
+                                                    })}
+                                                </View>)})
+                                            }
+                                        </View>)
+                                    }
+                                </Pressable>
+                            ))}
+                        </View>
+                    ))}
+                </View>
+            </View>
+            <View style={styles.buttons}>
+                <IconButton 
+                    text='erase' 
+                    image={require('./icons/eraser.png')} 
+                    onPress={()=>{
+                        if (selectedCell === undefined || selectedCell.ok) return;
+                        var m = JSON.parse(JSON.stringify(matrix));
+                        m[selectedCell.i][selectedCell.j].visible = false;
+                        setMatrix(m);
+                    }}
+                    isSelected={false}/>
+                <IconButton 
+                    text='annotate'
+                    image={require('./icons/annotate.png')}
+                    onPress={()=>{
+                        if (mode == 'annotate')
+                            setMode('write');
+                        else
+                            setMode('annotate');
+                    }}
+                    isSelected={mode == 'annotate'}/>
+                <IconButton
+                    text='hint' 
+                    image={require('./icons/hint.png')}
+                    onPress={()=>{
+                        if (selectedCell === undefined || selectedCell.ok) return;
+                        var m = JSON.parse(JSON.stringify(matrix));
+                        m[selectedCell.i][selectedCell.j].value = solution[selectedCell.i][selectedCell.j];
+                        m[selectedCell.i][selectedCell.j].ok = true;
+                        m[selectedCell.i][selectedCell.j].visible = true;
+                        setMatrix(m);
+                    }}
+                    isSelected={false}/>
+                <IconButton
+                    text='finish' 
+                    image={require('./icons/finish.png')}
+                    onPress={checkAndFinish}
+                    isSelected={false}/>
+
+            </View>
+            <View style={styles.numbers}>
+                {[1,2,3,4,5,6,7,8,9].map(num => (
+                    <NumberButton number={num} key={num} onPress={() => {onNumberPressed(num)}}/>
                 ))}
             </View>
-        </View>
-        <View style={styles.buttons}>
-            <IconButton 
-                text='erase' 
-                image={require('./icons/eraser.png')} 
-                onPress={()=>{
-                    if (selectedCell === undefined || selectedCell.ok) return;
-                    var m = JSON.parse(JSON.stringify(matrix));
-                    m[selectedCell.i][selectedCell.j].visible = false;
-                    setMatrix(m);
-                }}
-                isSelected={false}/>
-            <IconButton 
-                text='annotate'
-                image={require('./icons/annotate.png')}
-                onPress={()=>{
-                    if (mode == 'annotate')
-                        setMode('write');
-                    else
-                        setMode('annotate');
-                }}
-                isSelected={mode == 'annotate'}/>
-            <IconButton
-                text='hint' 
-                image={require('./icons/hint.png')}
-                onPress={()=>{
-                    if (selectedCell === undefined || selectedCell.ok) return;
-                    var m = JSON.parse(JSON.stringify(matrix));
-                    m[selectedCell.i][selectedCell.j].value = solution[selectedCell.i][selectedCell.j];
-                    m[selectedCell.i][selectedCell.j].ok = true;
-                    m[selectedCell.i][selectedCell.j].visible = true;
-                    setMatrix(m);
-                }}
-                isSelected={false}/>
-            <IconButton
-                text='finish' 
-                image={require('./icons/finish.png')}
-                onPress={checkAndFinish}
-                isSelected={false}/>
-
-        </View>
-        <View style={styles.numbers}>
-            {[1,2,3,4,5,6,7,8,9].map(num => (
-                <NumberButton number={num} key={num} onPress={() => {onNumberPressed(num)}}/>
-            ))}
-        </View>
-    </SafeAreaView>
+        </SafeAreaView>
+    </ContextProvider>
     );
 }
 
@@ -243,25 +232,6 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         backgroundColor: '#ffe8aa'
-    },
-    modal:{
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        elevation: 10,
-        shadowColor: '#000000',
-        backgroundColor: 'white',
-        borderRadius: 20,
-        borderWidth: 5,
-        padding: 20,
-    },
-    modalTitle:{
-        fontFamily: 'monospace',
-        fontSize: 40,
-        fontWeight: 'bold',
-        color: '#000000',
-        paddingBottom: 40
     },
     boardContainer:{
         paddingTop: 40

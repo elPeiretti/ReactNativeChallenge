@@ -10,7 +10,6 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <ContextProvider>
       <NavigationContainer>
         <Stack.Navigator 
           initialRouteName='MainScreen'
@@ -20,7 +19,6 @@ function App() {
           <Stack.Screen name="GameScreen" component={GameScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
-    </ContextProvider>
   );
 }
 

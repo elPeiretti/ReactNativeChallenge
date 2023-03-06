@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { BackHandler, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Button from './Button';
 
 const MainScreen = ({navigation}) => {
@@ -22,7 +22,8 @@ const MainScreen = ({navigation}) => {
                 <Button text='WIP: Time-trial' style={{alignSelf: 'center', backgroundColor: '#bdbdbd'}}/>
             </View>
             <View style={{paddingTop: 200}}>
-                <Button text='Exit' color='#ffd6d6' style={{alignSelf: 'center'}}/>
+                {/* Backhandler only works in Android */}
+                <Button text='Exit' color='#ffd6d6' style={{alignSelf: 'center'}} onPress={() => {BackHandler.exitApp()}}/>
             </View>
         </View>
     );

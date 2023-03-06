@@ -63,9 +63,10 @@ On day 5, the next things were done:
 On day 6 I will test the game and if I feel that it's working ok, I will try to find a solution to the clock updates.
 
 ## Day 6
-> Time dedicated:
+> Time dedicated: about 3 hours.
 
 On day 6, the next things were done:
 - Re-implemented the stopwatch component.
 - Implemented the use of Context for the time. I thought that if I added context to the current time, GameScreen would stop rendering every second. Though, that was not the case, so I realized that I could create a component for each modal, (instead of having them written in GameScreen.js), removing the re-rendering (only the FinishModal re-renders, which may be more efficient).
 - Created a file for the Pause modal, to make GameScreen look cleaner.
+- Added an icon to the app (I may change it later).

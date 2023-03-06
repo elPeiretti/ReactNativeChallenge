@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import { StyleSheet, View, Text, Modal } from "react-native";
 import { TimeContext } from "../../context/TimeContext";
 import Button from "./Button";
+import DefaultModalStyle from "./DefaultModalStyle";
 import { secondsTohhmmss } from "./Stopwatch";
 
 const FinishModal = (props) => {
@@ -11,8 +12,7 @@ const FinishModal = (props) => {
     return (
     <Modal
         transparent={true}
-        visible={props.isVisible}
-        onRequestClose={()=>{setFinishModalVisible(!finishModalVisible)}}>
+        visible={props.isVisible}>
             <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 10}}>
                 <View style={styles.modal}>
                     <Text style={[styles.modalTitle, {paddingBottom: 0}]}>You win!</Text>
@@ -31,24 +31,4 @@ const FinishModal = (props) => {
 
 export default FinishModal;
 
-const styles = StyleSheet.create({
-    modal:{
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        elevation: 10,
-        shadowColor: '#000000',
-        backgroundColor: 'white',
-        borderRadius: 20,
-        borderWidth: 5,
-        padding: 20,
-    },
-    modalTitle:{
-        fontFamily: 'monospace',
-        fontSize: 40,
-        fontWeight: 'bold',
-        color: '#000000',
-        paddingBottom: 40
-    },
-});
+const styles = DefaultModalStyle;

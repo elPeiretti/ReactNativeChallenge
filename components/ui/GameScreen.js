@@ -7,6 +7,7 @@ import NumberButton from './NumberButton';
 import Stopwatch, { secondsTohhmmss } from './Stopwatch';
 import { SolutionGenerator } from './SudokuGenerator';
 import FinishModal from './FinishModal';
+import PauseModal from './PauseModal';
 
 const GameScreen = ({route, navigation}) => {
 
@@ -106,18 +107,10 @@ const GameScreen = ({route, navigation}) => {
     return (
         <ContextProvider>
             <SafeAreaView style={{flex: 1}}>
-            <Modal
-            transparent={true}
-            visible={pauseModalVisible}
-            onRequestClose={()=>{setpauseModalVisible(!pauseModalVisible)}}>
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <View style={styles.modal}>
-                        <Text style={styles.modalTitle}>Game paused</Text>
-                        <Button text='Resume' onPress={hidePauseModal}/>
-                        <Button text='Exit' color='#ffd6d6' onPress={() => navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}/>
-                    </View>
-                </View>
-            </Modal>
+            <PauseModal 
+                isVisible={pauseModalVisible}
+                onResumePressed={hidePauseModal}
+                onExitPressed={() => navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}/>
             <FinishModal 
                 isVisible={finishModalVisible} 
                 difficulty={difficulty} 

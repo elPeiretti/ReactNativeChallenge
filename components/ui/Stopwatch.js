@@ -24,6 +24,10 @@ const Stopwatch = (props) => {
 
 export default Stopwatch;
 
+export function secondsTohhmmss(seconds) {
+    return new Date(seconds*1000).toISOString().substring(11,19);
+}
+
 const styles = StyleSheet.create({
     stopwatch:{
         alignSelf: 'center',

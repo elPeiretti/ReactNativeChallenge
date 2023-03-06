@@ -4,19 +4,20 @@ import { TimeContext } from '../../context/TimeContext';
 
 const Stopwatch = (props) => {
 
-    const {
-        timeInSeconds,
-        updateTime
-    } = useContext(TimeContext);
+    const ctx = useContext(TimeContext);
 
     useEffect(() => {
-        const int = setInterval(() => {if (props.isCounting) updateTime(timeInSeconds+1)},1000);
+        ctx.setter(100);
+    }, [])
+
+    useEffect(() => {
+        const int = setInterval(() => {if (props.isCounting) ctx.increment()},1000);
         return () => {clearInterval(int)};
-    }, [timeInSeconds, props.isCounting]);
+    }, [ctx.time, props.isCounting]);
 
     return (
         <Text style={styles.stopwatch}>
-            {new Date(timeInSeconds*1000).toISOString().substring(11,19)}
+            {new Date(ctx.time*1000).toISOString().substring(11,19)}
         </Text>
     );
 }

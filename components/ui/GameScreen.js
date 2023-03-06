@@ -4,6 +4,7 @@ import { ContextProvider, TimeContext } from '../../context/TimeContext';
 import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
+import Stopwatch from './Stopwatch';
 import { SolutionGenerator } from './SudokuGenerator';
 
 const GameScreen = ({route, navigation}) => {
@@ -14,7 +15,6 @@ const GameScreen = ({route, navigation}) => {
     const [finishModalVisible, setFinishModalVisible] = useState(false);
     const [timeInSeconds, setTimeInSecods] = useState(0);
     const [mode, setMode] = useState('write');
-    const time = useContext(TimeContext);
     const cell = {
         i: -1,
         j: -1,
@@ -53,11 +53,6 @@ const GameScreen = ({route, navigation}) => {
         setSolution(game.sol);
         setIsCounting(true);
     },[]);
-
-    useEffect(() => {
-        const int = setInterval(() => {if (isCounting) setTimeInSecods(timeInSeconds+1)},1000);
-        return () => {clearInterval(int)};
-    }, [timeInSeconds, isCounting]);
     
     function showPauseModal(){
         setIsCounting(false);
@@ -67,7 +62,6 @@ const GameScreen = ({route, navigation}) => {
         setIsCounting(true);
         setpauseModalVisible(false);
     }
-
     function onNumberPressed(num) {
         var m = JSON.parse(JSON.stringify(matrix));
         var selectedCopy = m[selectedCell.i][selectedCell.j];
@@ -146,9 +140,7 @@ const GameScreen = ({route, navigation}) => {
                     </View>
                 </Modal>
                 <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
-                    <Text style={styles.stopwatch}>
-                        {secondsTohhmmss(timeInSeconds)}
-                    </Text>
+                    <Stopwatch startTime={0} isCounting={isCounting}/>
                     <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
                         <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                     </TouchableOpacity>
@@ -276,11 +268,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000000',
         paddingBottom: 40
-    },
-    stopwatch:{
-        alignSelf: 'center',
-        paddingEnd: 15,
-        fontSize: 20
     },
     boardContainer:{
         paddingTop: 40

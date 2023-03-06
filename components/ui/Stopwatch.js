@@ -7,7 +7,7 @@ const Stopwatch = (props) => {
     const ctx = useContext(TimeContext);
 
     useEffect(() => {
-        ctx.setter(100);
+        ctx.setter(props.startTime);
     }, [])
 
     useEffect(() => {

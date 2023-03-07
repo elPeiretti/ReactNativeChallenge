@@ -2,7 +2,9 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "./Button";
 
-const DifficultyScreen = ({navigation}) => {
+const DifficultyScreen = ({route, navigation}) => {
+
+    const gameMode = route.params;
 
     return (
         <View style={styles.screen}>
@@ -14,16 +16,16 @@ const DifficultyScreen = ({navigation}) => {
             </View>
             */}
             <View style={styles.buttonContainer}>
-                <Button text='Easy' onPress={()=>navigation.navigate('GameScreen', 2)}/>
+                <Button text='Easy' onPress={()=>navigation.navigate(gameMode, 2)}/>
             </View>
             <View style={styles.buttonContainer}>
-                <Button text='Medium' onPress={()=>navigation.navigate('GameScreen', 1)}/>
+                <Button text='Medium' onPress={()=>navigation.navigate(gameMode, 1)}/>
             </View>
             <View style={styles.buttonContainer}>
-                <Button text='Hard' onPress={()=>navigation.navigate('GameScreen', 0)}/>
+                <Button text='Hard' onPress={()=>navigation.navigate(gameMode, 0)}/>
             </View>
             <View style={styles.buttonContainer}>
-                <Button text='Impossible' onPress={()=>navigation.navigate('GameScreen', -1)}/>
+                <Button text='Impossible' onPress={()=>navigation.navigate(gameMode, -1)}/>
             </View>
         </View>
     );

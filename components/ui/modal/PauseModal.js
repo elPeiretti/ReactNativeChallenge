@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, View, Text } from "react-native"
 import DefaultModalStyle from "./DefaultModalStyle";
-import Button from "./Button";
+import Button from "../Button";
 
 const PauseModal = (props) => {
     return (

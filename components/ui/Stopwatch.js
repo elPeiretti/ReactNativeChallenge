@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, Text } from 'react-native'
 import { TimeContext } from '../../context/TimeContext';
 
@@ -11,7 +11,18 @@ const Stopwatch = (props) => {
     }, [])
 
     useEffect(() => {
-        const int = setInterval(() => {if (props.isCounting) ctx.increment()},1000);
+        const int = setInterval(() => {
+            if (!props.isCounting) return;
+            if (props.mode == 'increment')
+                ctx.increment();
+            else{
+                if (ctx.time == 0){
+                    props.onTimeReached();
+                    return;
+                }
+                ctx.decrement();
+            }
+        },1000);
         return () => {clearInterval(int)};
     }, [ctx.time, props.isCounting]);
 

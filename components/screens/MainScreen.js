@@ -1,6 +1,6 @@
 import React from 'react';
 import { BackHandler, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Button from './Button';
+import Button from '../ui/Button';
 
 const MainScreen = ({navigation}) => {
 
@@ -16,10 +16,10 @@ const MainScreen = ({navigation}) => {
                 <Text style={styles.signature}> By elPeiretti</Text>
             </View>
             <View>
-                <Button text='Normal' style={{alignSelf: 'center'}} onPress={()=>navigation.navigate('DifficultyScreen')}/>
+                <Button text='Normal' style={{alignSelf: 'center'}} onPress={()=>navigation.navigate('DifficultyScreen', 'NormalGameScreen')}/>
             </View>
             <View style={{paddingTop: 10}}>
-                <Button text='WIP: Time-trial' style={{alignSelf: 'center', backgroundColor: '#bdbdbd'}}/>
+                <Button text='Time-trial' style={{alignSelf: 'center'}} onPress={() => navigation.navigate('DifficultyScreen', 'TrialGameScreen')}/>
             </View>
             <View style={{paddingTop: 200}}>
                 {/* Backhandler only works in Android */}

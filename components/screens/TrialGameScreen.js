@@ -1,22 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import { ContextProvider, TimeContext } from '../../context/TimeContext';
-import Button from './Button';
-import IconButton from './IconButton';
-import NumberButton from './NumberButton';
-import Stopwatch, { secondsTohhmmss } from './Stopwatch';
-import { SolutionGenerator } from './SudokuGenerator';
-import FinishModal from './FinishModal';
-import PauseModal from './PauseModal';
+import IconButton from '../ui//IconButton';
+import NumberButton from '../ui/NumberButton';
+import Stopwatch from '../ui//Stopwatch';
+import { SolutionGenerator } from '../SudokuGenerator';
+import FinishModal from '../ui/modal/FinishModal';
+import PauseModal from '../ui/modal/PauseModal';
+import TimeReachedModal from '../ui/modal/TimeReachedModal';
 
-const GameScreen = ({route, navigation}) => {
-
+const TrialGameScreen = ({route, navigation}) => {
     const difficulty = route.params;
     const [isCounting, setIsCounting] = useState(false);
     const [pauseModalVisible, setpauseModalVisible] = useState(false);
     const [finishModalVisible, setFinishModalVisible] = useState(false);
+    const [timeReachedModalVisible, setTimeReachedModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
-    const ctx = useContext(TimeContext);
+    const [timeIsUp, setTimeIsUp] = useState(false);
     const cell = {
         i: -1,
         j: -1,
@@ -56,6 +56,12 @@ const GameScreen = ({route, navigation}) => {
         setIsCounting(true);
     },[]);
 
+    useEffect(() => {
+        if(!timeIsUp) return;
+        setIsCounting(false);
+        setTimeReachedModalVisible(true);
+    },[timeIsUp]);
+
     function showPauseModal(){
         setIsCounting(false);
         setpauseModalVisible(true);
@@ -89,7 +95,7 @@ const GameScreen = ({route, navigation}) => {
     }
 
     function checkAndFinish(){
-        var finished = true;
+        var finished = false;
         for(var i=0; i<9; i+=1){
             for(var j=0; j<9; j+=1){
                 finished = matrix[i][j].ok;
@@ -97,6 +103,10 @@ const GameScreen = ({route, navigation}) => {
         }
 
         if (finished){
+            if(difficulty == -1){
+                Alert.alert('whoops!','Your solution is not valid!')
+                return;
+            }
             setIsCounting(false);
             setFinishModalVisible(true);
         }
@@ -115,8 +125,14 @@ const GameScreen = ({route, navigation}) => {
                 isVisible={finishModalVisible} 
                 difficulty={difficulty} 
                 onPressContinue={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
+            <TimeReachedModal
+                isVisible={timeReachedModalVisible}
+                onPressContinue={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
-                <Stopwatch startTime={0} isCounting={isCounting}/>
+                <Stopwatch 
+                    startTime={45*60 - difficulty*15*60} 
+                    isCounting={isCounting} mode='decrement'
+                    onTimeReached={() => {setTimeIsUp(true)}}/>
                 <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>
@@ -167,7 +183,7 @@ const GameScreen = ({route, navigation}) => {
             <View style={styles.buttons}>
                 <IconButton 
                     text='erase' 
-                    image={require('./icons/eraser.png')} 
+                    image={require('../ui/icons/eraser.png')} 
                     onPress={()=>{
                         if (selectedCell === undefined || selectedCell.ok) return;
                         var m = JSON.parse(JSON.stringify(matrix));
@@ -177,7 +193,7 @@ const GameScreen = ({route, navigation}) => {
                     isSelected={false}/>
                 <IconButton 
                     text='annotate'
-                    image={require('./icons/annotate.png')}
+                    image={require('../ui/icons/annotate.png')}
                     onPress={()=>{
                         if (mode == 'annotate')
                             setMode('write');
@@ -186,20 +202,8 @@ const GameScreen = ({route, navigation}) => {
                     }}
                     isSelected={mode == 'annotate'}/>
                 <IconButton
-                    text='hint' 
-                    image={require('./icons/hint.png')}
-                    onPress={()=>{
-                        if (selectedCell === undefined || selectedCell.ok) return;
-                        var m = JSON.parse(JSON.stringify(matrix));
-                        m[selectedCell.i][selectedCell.j].value = solution[selectedCell.i][selectedCell.j];
-                        m[selectedCell.i][selectedCell.j].ok = true;
-                        m[selectedCell.i][selectedCell.j].visible = true;
-                        setMatrix(m);
-                    }}
-                    isSelected={false}/>
-                <IconButton
                     text='finish' 
-                    image={require('./icons/finish.png')}
+                    image={require('../ui/icons/finish.png')}
                     onPress={checkAndFinish}
                     isSelected={false}/>
             </View>
@@ -213,7 +217,7 @@ const GameScreen = ({route, navigation}) => {
     );
 }
 
-export default GameScreen;
+export default TrialGameScreen;
 
 const styles = StyleSheet.create({
     pauseButton:{

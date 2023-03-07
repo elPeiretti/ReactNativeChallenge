@@ -98,8 +98,14 @@ export const SolutionGenerator = (difficulty) => {
     
     while (indx < amountRemoved){
         var pos = positions[indx];
+        if(difficulty == -1){
+            board[Math.floor(pos/9)][pos%9]=(board[Math.floor(pos/9)][pos%9]+1)%9 + 1;
+            difficulty = 0;
+        }
+        else{
+            board[Math.floor(pos/9)][pos%9]=0;
+        }
         indx+=1;
-        board[Math.floor(pos/9)][pos%9]=0;
     }
 
     return {sol: solution, board: board};

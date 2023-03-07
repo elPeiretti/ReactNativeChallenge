@@ -15,7 +15,6 @@ const NormalGameScreen = ({route, navigation}) => {
     const [pauseModalVisible, setpauseModalVisible] = useState(false);
     const [finishModalVisible, setFinishModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
-    const ctx = useContext(TimeContext);
     const cell = {
         i: -1,
         j: -1,
@@ -119,7 +118,7 @@ const NormalGameScreen = ({route, navigation}) => {
                 difficulty={difficulty} 
                 onPressContinue={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
-                <Stopwatch startTime={0} isCounting={isCounting}/>
+                <Stopwatch startTime={0} isCounting={isCounting} mode='increment'/>
                 <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>

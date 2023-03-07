@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import { ContextProvider, TimeContext } from '../../context/TimeContext';
-import Button from './Button';
 import IconButton from './IconButton';
 import NumberButton from './NumberButton';
-import Stopwatch, { secondsTohhmmss } from './Stopwatch';
+import Stopwatch from './Stopwatch';
 import { SolutionGenerator } from './SudokuGenerator';
 import FinishModal from './FinishModal';
 import PauseModal from './PauseModal';
 
-const GameScreen = ({route, navigation}) => {
+const NormalGameScreen = ({route, navigation}) => {
 
     const difficulty = route.params;
     const [isCounting, setIsCounting] = useState(false);
@@ -217,7 +216,7 @@ const GameScreen = ({route, navigation}) => {
     );
 }
 
-export default GameScreen;
+export default NormalGameScreen;
 
 const styles = StyleSheet.create({
     pauseButton:{

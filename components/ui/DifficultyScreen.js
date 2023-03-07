@@ -22,11 +22,9 @@ const DifficultyScreen = ({navigation}) => {
             <View style={styles.buttonContainer}>
                 <Button text='Hard' onPress={()=>navigation.navigate('GameScreen', 0)}/>
             </View>
-            {/*
             <View style={styles.buttonContainer}>
                 <Button text='Impossible' onPress={()=>navigation.navigate('GameScreen', -1)}/>
             </View>
-            */}
         </View>
     );
 }

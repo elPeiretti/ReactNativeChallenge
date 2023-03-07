@@ -97,6 +97,10 @@ const GameScreen = ({route, navigation}) => {
         }
 
         if (finished){
+            if(difficulty == -1){
+                Alert.alert('whoops!','Your solution is not valid!')
+                return;
+            }
             setIsCounting(false);
             setFinishModalVisible(true);
         }

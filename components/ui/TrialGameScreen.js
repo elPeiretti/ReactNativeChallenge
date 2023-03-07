@@ -7,13 +7,16 @@ import Stopwatch from './Stopwatch';
 import { SolutionGenerator } from './SudokuGenerator';
 import FinishModal from './FinishModal';
 import PauseModal from './PauseModal';
+import TimeReachedModal from './TimeReachedModal';
 
 const TrialGameScreen = ({route, navigation}) => {
     const difficulty = route.params;
     const [isCounting, setIsCounting] = useState(false);
     const [pauseModalVisible, setpauseModalVisible] = useState(false);
     const [finishModalVisible, setFinishModalVisible] = useState(false);
+    const [timeReachedModalVisible, setTimeReachedModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
+    const [timeIsUp, setTimeIsUp] = useState(false);
     const cell = {
         i: -1,
         j: -1,
@@ -52,6 +55,12 @@ const TrialGameScreen = ({route, navigation}) => {
         setSolution(game.sol);
         setIsCounting(true);
     },[]);
+
+    useEffect(() => {
+        if(!timeIsUp) return;
+        setIsCounting(false);
+        setTimeReachedModalVisible(true);
+    },[timeIsUp]);
 
     function showPauseModal(){
         setIsCounting(false);
@@ -116,8 +125,14 @@ const TrialGameScreen = ({route, navigation}) => {
                 isVisible={finishModalVisible} 
                 difficulty={difficulty} 
                 onPressContinue={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
+            <TimeReachedModal
+                isVisible={timeReachedModalVisible}
+                onPressContinue={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
-                <Stopwatch startTime={45*60-difficulty*15*60} isCounting={isCounting} mode='decrement'/>
+                <Stopwatch 
+                    startTime={45*60 - difficulty*15*60} 
+                    isCounting={isCounting} mode='decrement'
+                    onTimeReached={() => {setTimeIsUp(true)}}/>
                 <TouchableOpacity style={styles.pauseButton} onPress={showPauseModal}>
                     <Text style={{fontWeight: 'bold', color: '#000000'}}>| |</Text>
                 </TouchableOpacity>

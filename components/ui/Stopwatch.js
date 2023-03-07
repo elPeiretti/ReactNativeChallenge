@@ -15,8 +15,13 @@ const Stopwatch = (props) => {
             if (!props.isCounting) return;
             if (props.mode == 'increment')
                 ctx.increment();
-            else
+            else{
+                if (ctx.time == 0){
+                    props.onTimeReached();
+                    return;
+                }
                 ctx.decrement();
+            }
         },1000);
         return () => {clearInterval(int)};
     }, [ctx.time, props.isCounting]);

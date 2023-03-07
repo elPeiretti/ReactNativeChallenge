@@ -72,8 +72,10 @@ On day 6, the next things were done:
 - Added an icon to the app (I may change it later).
 
 ## Day 7
-> Time dedicated: 
+> Time dedicated: about 2 hours.
 
 On day 7, the next things were done:
 - I've added the impossible difficulty option
 - I've implemented the time-trial gamemode. I could have done it in the same component as the normal game, but I've decided that it will be easier for me to fix things if I have them separated.
+
+On the remaining days (8,9,10) I will try to implement a leaderboard. This will require me to build some kind of database, and I'm thinking that I will implement a RESTful API with Node.js or Python (may choose Node to continue using javascript)

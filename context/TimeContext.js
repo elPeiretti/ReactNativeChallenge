@@ -10,12 +10,20 @@ export const ContextProvider = ({children}) => {
         setTimeInSecods(seconds);
     }
 
-    const updateTime = () => {
+    const incrementTime = () => {
         setTimeInSecods(timeInSeconds+1);
     }
 
+    const decrementTime = () => {
+        setTimeInSecods(timeInSeconds-1);
+    }
+
     return (
-        <TimeContext.Provider value={{time: timeInSeconds, setter: setTime, increment: updateTime}}>
+        <TimeContext.Provider value={{
+            time: timeInSeconds,
+            setter: setTime, 
+            increment: incrementTime,
+            decrement: decrementTime}}>
             {children}
         </TimeContext.Provider>
     );

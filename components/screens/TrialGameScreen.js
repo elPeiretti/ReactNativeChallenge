@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import { ContextProvider, TimeContext } from '../../context/TimeContext';
-import IconButton from './IconButton';
-import NumberButton from './NumberButton';
-import Stopwatch from './Stopwatch';
-import { SolutionGenerator } from './SudokuGenerator';
-import FinishModal from './FinishModal';
-import PauseModal from './PauseModal';
-import TimeReachedModal from './TimeReachedModal';
+import IconButton from '../ui//IconButton';
+import NumberButton from '../ui/NumberButton';
+import Stopwatch from '../ui//Stopwatch';
+import { SolutionGenerator } from '../SudokuGenerator';
+import FinishModal from '../ui/modal/FinishModal';
+import PauseModal from '../ui/modal/PauseModal';
+import TimeReachedModal from '../ui/modal/TimeReachedModal';
 
 const TrialGameScreen = ({route, navigation}) => {
     const difficulty = route.params;
@@ -183,7 +183,7 @@ const TrialGameScreen = ({route, navigation}) => {
             <View style={styles.buttons}>
                 <IconButton 
                     text='erase' 
-                    image={require('./icons/eraser.png')} 
+                    image={require('../ui/icons/eraser.png')} 
                     onPress={()=>{
                         if (selectedCell === undefined || selectedCell.ok) return;
                         var m = JSON.parse(JSON.stringify(matrix));
@@ -193,7 +193,7 @@ const TrialGameScreen = ({route, navigation}) => {
                     isSelected={false}/>
                 <IconButton 
                     text='annotate'
-                    image={require('./icons/annotate.png')}
+                    image={require('../ui/icons/annotate.png')}
                     onPress={()=>{
                         if (mode == 'annotate')
                             setMode('write');
@@ -203,7 +203,7 @@ const TrialGameScreen = ({route, navigation}) => {
                     isSelected={mode == 'annotate'}/>
                 <IconButton
                     text='finish' 
-                    image={require('./icons/finish.png')}
+                    image={require('../ui/icons/finish.png')}
                     onPress={checkAndFinish}
                     isSelected={false}/>
             </View>

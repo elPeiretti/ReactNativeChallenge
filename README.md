@@ -70,3 +70,10 @@ On day 6, the next things were done:
 - Implemented the use of Context for the time. I thought that if I added context to the current time, GameScreen would stop rendering every second. Though, that was not the case, so I realized that I could create a component for each modal, (instead of having them written in GameScreen.js), removing the re-rendering (only the FinishModal re-renders, which may be more efficient).
 - Created a file for the Pause modal, to make GameScreen look cleaner.
 - Added an icon to the app (I may change it later).
+
+## Day 7
+> Time dedicated: 
+
+On day 7, the next things were done:
+- I've added the impossible difficulty option
+- I've implemented the time-trial gamemode. I could have done it in the same component as the normal game, but I've decided that it will be easier for me to fix things if I have them separated.

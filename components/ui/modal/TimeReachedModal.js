@@ -1,8 +1,8 @@
 import React from "react"
 import {View, Text, Modal } from "react-native";
-import Button from "./Button";
+import Button from "../Button";
 import DefaultModalStyle from "./DefaultModalStyle";
-import { secondsTohhmmss } from "./Stopwatch";
+import { secondsTohhmmss } from "../Stopwatch";
 
 const TimeReachedModal = (props) => {
 

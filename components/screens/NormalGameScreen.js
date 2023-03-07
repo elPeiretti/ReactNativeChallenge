@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import { ContextProvider, TimeContext } from '../../context/TimeContext';
-import IconButton from './IconButton';
-import NumberButton from './NumberButton';
-import Stopwatch from './Stopwatch';
-import { SolutionGenerator } from './SudokuGenerator';
-import FinishModal from './FinishModal';
-import PauseModal from './PauseModal';
+import IconButton from '../ui/IconButton';
+import NumberButton from '../ui/NumberButton';
+import Stopwatch from '../ui/Stopwatch';
+import { SolutionGenerator } from '../SudokuGenerator';
+import FinishModal from '../ui/modal/FinishModal';
+import PauseModal from '../ui/modal/PauseModal';
 
 const NormalGameScreen = ({route, navigation}) => {
 
@@ -169,7 +169,7 @@ const NormalGameScreen = ({route, navigation}) => {
             <View style={styles.buttons}>
                 <IconButton 
                     text='erase' 
-                    image={require('./icons/eraser.png')} 
+                    image={require('../ui/icons/eraser.png')} 
                     onPress={()=>{
                         if (selectedCell === undefined || selectedCell.ok) return;
                         var m = JSON.parse(JSON.stringify(matrix));
@@ -179,7 +179,7 @@ const NormalGameScreen = ({route, navigation}) => {
                     isSelected={false}/>
                 <IconButton 
                     text='annotate'
-                    image={require('./icons/annotate.png')}
+                    image={require('../ui/icons/annotate.png')}
                     onPress={()=>{
                         if (mode == 'annotate')
                             setMode('write');
@@ -189,7 +189,7 @@ const NormalGameScreen = ({route, navigation}) => {
                     isSelected={mode == 'annotate'}/>
                 <IconButton
                     text='hint' 
-                    image={require('./icons/hint.png')}
+                    image={require('../ui/icons/hint.png')}
                     onPress={()=>{
                         if (selectedCell === undefined || selectedCell.ok) return;
                         var m = JSON.parse(JSON.stringify(matrix));
@@ -201,7 +201,7 @@ const NormalGameScreen = ({route, navigation}) => {
                     isSelected={false}/>
                 <IconButton
                     text='finish' 
-                    image={require('./icons/finish.png')}
+                    image={require('../ui/icons/finish.png')}
                     onPress={checkAndFinish}
                     isSelected={false}/>
             </View>

@@ -1,9 +1,9 @@
 import React, { useContext } from "react"
 import { StyleSheet, View, Text, Modal } from "react-native";
-import { TimeContext } from "../../context/TimeContext";
-import Button from "./Button";
+import { TimeContext } from "../../../context/TimeContext";
+import Button from "../Button";
 import DefaultModalStyle from "./DefaultModalStyle";
-import { secondsTohhmmss } from "./Stopwatch";
+import { secondsTohhmmss } from "../Stopwatch";
 
 const FinishModal = (props) => {
 

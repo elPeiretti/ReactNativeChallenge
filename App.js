@@ -1,10 +1,10 @@
 import React from 'react';
-import DifficultyScreen from './components/ui/DifficultyScreen';
-import GameScreen from './components/ui/NormalGameScreen';
-import MainScreen from './components/ui/MainScreen';
+import DifficultyScreen from './components/screens/DifficultyScreen';
+import MainScreen from './components/screens/MainScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TrialGameScreen from './components/ui/TrialGameScreen';
+import TrialGameScreen from './components/screens/TrialGameScreen';
+import NormalGameScreen from './components/screens/NormalGameScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +16,7 @@ function App() {
           screenOptions={{headerShown: false}}>
           <Stack.Screen name="MainScreen" component={MainScreen}/>
           <Stack.Screen name="DifficultyScreen" component={DifficultyScreen}/>
-          <Stack.Screen name="NormalGameScreen" component={GameScreen}/>
+          <Stack.Screen name="NormalGameScreen" component={NormalGameScreen}/>
           <Stack.Screen name="TrialGameScreen" component={TrialGameScreen}/>
         </Stack.Navigator>
       </NavigationContainer>

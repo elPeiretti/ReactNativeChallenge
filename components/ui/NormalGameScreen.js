@@ -87,7 +87,7 @@ const NormalGameScreen = ({route, navigation}) => {
     }
 
     function checkAndFinish(){
-        var finished = true;
+        var finished = false;
         for(var i=0; i<9; i+=1){
             for(var j=0; j<9; j+=1){
                 finished = matrix[i][j].ok;

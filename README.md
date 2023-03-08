@@ -81,7 +81,7 @@ On day 7, the next things were done:
 On the remaining days (8,9,10) I will try to implement a leaderboard. This will require me to build some kind of database, and I'm thinking that I will implement a RESTful API with Node.js or Python (may choose Node to continue using javascript)
 
 ## Day 8
-> Time dedicated:
+> Time dedicated: about 1.5 hours
 
 On day 8, the next things were done:
 - I've researched about API's with Node.js and python. I have decided that the best option will be using python + fastapi, because from what I've read, Node.js will require me more time to understand ( and I only have day 9 and 10 to do it).

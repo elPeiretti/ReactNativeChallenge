@@ -79,3 +79,12 @@ On day 7, the next things were done:
 - I've implemented the time-trial gamemode. I could have done it in the same component as the normal game, but I've decided that it will be easier for me to fix things if I have them separated.
 
 On the remaining days (8,9,10) I will try to implement a leaderboard. This will require me to build some kind of database, and I'm thinking that I will implement a RESTful API with Node.js or Python (may choose Node to continue using javascript)
+
+## Day 8
+> Time dedicated:
+
+On day 8, the next things were done:
+- I've researched about API's with Node.js and python. I have decided that the best option will be using python + fastapi, because from what I've read, Node.js will require me more time to understand ( and I only have day 9 and 10 to do it).
+- I've added functionality to the '?' button in the MainScreen. It shows the explanations of the different game modes and the project.
+
+On day 9 I will start reading and implementing the API, and if I have some time left I will try to code the data layer.

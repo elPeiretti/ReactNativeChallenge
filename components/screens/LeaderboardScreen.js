@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native"
-import { getEasyLeaderboard } from "../../persistence/repository/LeaderboardRepository";
+import { getLeaderboard } from "../../persistence/repository/LeaderboardRepository";
 
 const LeaderboardScreen = () => {
 
@@ -9,28 +9,42 @@ const LeaderboardScreen = () => {
     const [hardLb, setHardLb] = useState([]);
 
     useEffect(() => {
-        const loadEasy = async () => {
-            return await getEasyLeaderboard();
+        const loadLb = async (diff) => {
+            return await getLeaderboard(diff);
         }
-        loadEasy().then(r => {
+        const objToArray = (obj) => {
             //ok this works
-            return Object.keys(r).map((key) => [key, Object.keys(r[key]).map(s => r[key][s])[0]])})
-            .then(setEasyLb);
+            var i=1;
+            return Object.keys(obj).map((key) => [i++, key, Object.keys(obj[key]).map(s => obj[key][s])[0]]);
+        }
+        loadLb("easy").then(objToArray).then(setEasyLb);    
+        loadLb("medium").then(objToArray).then(setMediumLb);            
+        loadLb("hard").then(objToArray).then(setHardLb);            
+
     }, []);
+
+    function toLeaderboardRow(player){
+        return (
+            <Text key={[player[0],player[1]]} style={styles.position}>
+                {player[0]+" - "+player[1]+" - "+player[2]}
+            </Text>);
+    }
 
     return (
         <SafeAreaView>
             <ScrollView>
-                <View style={{alignItems: 'center'}}>
+                <View style={{alignItems: 'center', justifyContent: 'center'}}>
                     <View>
                         <Text style={styles.title}>Easy</Text>
-                        {console.log(easyLb)}
+                        {easyLb.map(toLeaderboardRow)}
                     </View>
-                    <View>
+                    <View style={{paddingTop: 20}}>
                         <Text style={styles.title}>Medium</Text>
+                        {mediumLb.map(toLeaderboardRow)}
                     </View>
-                    <View>
+                    <View style={{paddingTop: 20}}>
                         <Text style={styles.title}>Hard</Text>
+                        {hardLb.map(toLeaderboardRow)}
                     </View>
                 </View>
             </ScrollView>
@@ -44,6 +58,11 @@ const styles = StyleSheet.create({
     title:{
         fontSize: 42,
         fontFamily: 'monospace',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        alignSelf: 'center',
+        backgroundColor: '#d6f9ff',
+    },
+    position:{
+        fontSize: 16
     }
 });

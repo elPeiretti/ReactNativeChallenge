@@ -88,3 +88,12 @@ On day 8, the next things were done:
 - I've added functionality to the '?' button in the MainScreen. It shows the explanations of the different game modes and the project.
 
 On day 9 I will start reading and implementing the API, and if I have some time left I will try to code the data layer.
+
+## Day 9
+> Time dedicated: about 4 hours
+
+On day 9, the next things were done:
+- I've implemented an API using fastapi. Currently the data is stored in a JSON file, but I would like to store it in a Non SQL database.
+- I've coded the Leaderboard screen and made the calls to the API implemented to load the leaderboards.
+
+On day 10 The main objective will be to beautify the leaderboard Screen, it's missing a back button and I do not like how the titles look. Then, if I have time left I will try to improve the layer abstraction between the screen and the repository (I would like to return an array from the repository call, not the promise)

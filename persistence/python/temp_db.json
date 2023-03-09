@@ -34,6 +34,74 @@
             "score": "05:41:57"
         }
     },
-    "medium": {},
-    "hard": {}
+    "medium": {
+        "John": {
+            "score": "00:37:23"
+        },
+        "Pepito": {
+            "score": "00:23:12"
+        },
+        "Mr.Milanesa": {
+            "score": "00:22:10"
+        },
+        "Malo": {
+            "score": "00:53:10"
+        },
+        "Sebas": {
+            "score": "00:30:22"
+        },
+        "Julio": {
+            "score": "00:32:54"
+        },
+        "Don omar": {
+            "score": "00:58:54"
+        },
+        "Esteban quito": {
+            "score": "01:02:54"
+        },
+        "Armando Paredes": {
+            "score": "02:22:01"
+        },
+        "Elsa": {
+            "score": "00:41:57"
+        },
+        "John Doe": {
+            "score": "05:41:57"
+        }
+    },
+    "hard": {
+        "John": {
+            "score": "00:37:23"
+        },
+        "Pepito": {
+            "score": "00:23:12"
+        },
+        "Mr.Milanesa": {
+            "score": "00:22:10"
+        },
+        "Malo": {
+            "score": "00:53:10"
+        },
+        "Sebas": {
+            "score": "00:30:22"
+        },
+        "Julio": {
+            "score": "00:32:54"
+        },
+        "Don omar": {
+            "score": "00:58:54"
+        },
+        "Esteban quito": {
+            "score": "01:02:54"
+        },
+        "Armando Paredes": {
+            "score": "02:22:01"
+        },
+        "Elsa": {
+            "score": "00:41:57"
+        },
+        "John Doe": {
+            "score": "05:41:57"
+        }       
+    }
 }

@@ -25,7 +25,11 @@ const MainScreen = ({navigation}) => {
             <View style={{paddingTop: 10}}>
                 <Button text='Time-trial' style={{alignSelf: 'center'}} onPress={() => navigation.navigate('DifficultyScreen', 'TrialGameScreen')}/>
             </View>
-            <View style={{paddingTop: 200}}>
+            <View style={{paddingTop: 10}}>
+                <Button text='Leaderboard' style={{alignSelf: 'center'}} onPress={() => navigation.navigate('LeaderboardScreen')}/>
+            </View>
+            
+            <View style={{paddingTop: 80}}>
                 {/* Backhandler only works in Android */}
                 <Button text='Exit' color='#ffd6d6' style={{alignSelf: 'center'}} onPress={() => {BackHandler.exitApp()}}/>
             </View>

@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BackHandler, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Button from '../ui/Button';
+import InfoModal from '../ui/modal/InfoModal';
 
 const MainScreen = ({navigation}) => {
 
+    const [modalInfoIsVisible, setModalInfoIsVisible] = useState(false);
+
     return (
         <View style={styles.main}>
+            <InfoModal isVisible={modalInfoIsVisible} onClosePressed={()=>{setModalInfoIsVisible(false)}}/>
             <View style={styles.helpContainer}>
-                <TouchableOpacity style={styles.helpButton}>
+                <TouchableOpacity style={styles.helpButton} onPress={()=>{setModalInfoIsVisible(true)}}>
                     <Text style={{color:"#000000", fontSize: 22}}>?</Text>
                 </TouchableOpacity>
             </View>

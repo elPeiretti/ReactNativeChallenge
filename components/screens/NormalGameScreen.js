@@ -88,19 +88,24 @@ const NormalGameScreen = ({route, navigation}) => {
     }
 
     function onHintPressed(){
+
+        const insertHint = () => {
+            var m = JSON.parse(JSON.stringify(matrix));
+            m[selectedCell.i][selectedCell.j].value = solution[selectedCell.i][selectedCell.j];
+            m[selectedCell.i][selectedCell.j].ok = true;
+            m[selectedCell.i][selectedCell.j].visible = true;
+            setMatrix(m);
+        }
+
         if (selectedCell === undefined || selectedCell.ok) return;
         if (!hintUsed){
             Alert.alert('Warning!','If you use hints, your score won\'t be submitted to the leaderboard. Do you wish to continue?', [
-                {text: 'Yes', onPress: () => setHintUsed(true)},
+                {text: 'Yes', onPress: () => {setHintUsed(true); insertHint()}},
                 {text: 'No'}
             ]);
             return;
         }
-        var m = JSON.parse(JSON.stringify(matrix));
-        m[selectedCell.i][selectedCell.j].value = solution[selectedCell.i][selectedCell.j];
-        m[selectedCell.i][selectedCell.j].ok = true;
-        m[selectedCell.i][selectedCell.j].visible = true;
-        setMatrix(m);
+        insertHint();
     }
 
     function checkAndFinish(){

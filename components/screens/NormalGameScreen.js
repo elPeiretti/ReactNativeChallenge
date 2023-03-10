@@ -15,6 +15,7 @@ const NormalGameScreen = ({route, navigation}) => {
     const [pauseModalVisible, setpauseModalVisible] = useState(false);
     const [finishModalVisible, setFinishModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
+    const [hintUsed, setHintUsed] = useState(false);
     const cell = {
         i: -1,
         j: -1,
@@ -84,6 +85,22 @@ const NormalGameScreen = ({route, navigation}) => {
                 
         setMatrix(m);
         setSelectedCell(selectedCopy);
+    }
+
+    function onHintPressed(){
+        if (selectedCell === undefined || selectedCell.ok) return;
+        if (!hintUsed){
+            Alert.alert('Warning!','If you use hints, your score won\'t be submitted to the leaderboard. Do you wish to continue?', [
+                {text: 'Yes', onPress: () => setHintUsed(true)},
+                {text: 'No'}
+            ]);
+            return;
+        }
+        var m = JSON.parse(JSON.stringify(matrix));
+        m[selectedCell.i][selectedCell.j].value = solution[selectedCell.i][selectedCell.j];
+        m[selectedCell.i][selectedCell.j].ok = true;
+        m[selectedCell.i][selectedCell.j].visible = true;
+        setMatrix(m);
     }
 
     function checkAndFinish(){
@@ -190,14 +207,7 @@ const NormalGameScreen = ({route, navigation}) => {
                 <IconButton
                     text='hint' 
                     image={require('../ui/icons/hint.png')}
-                    onPress={()=>{
-                        if (selectedCell === undefined || selectedCell.ok) return;
-                        var m = JSON.parse(JSON.stringify(matrix));
-                        m[selectedCell.i][selectedCell.j].value = solution[selectedCell.i][selectedCell.j];
-                        m[selectedCell.i][selectedCell.j].ok = true;
-                        m[selectedCell.i][selectedCell.j].visible = true;
-                        setMatrix(m);
-                    }}
+                    onPress={()=>{onHintPressed()}}
                     isSelected={false}/>
                 <IconButton
                     text='finish' 

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native"
 import { getLeaderboard } from "../../persistence/repository/LeaderboardRepository";
+import Button from "../ui/Button";
 
-const LeaderboardScreen = () => {
+const LeaderboardScreen = ({navigation}) => {
 
     const [easyLb, setEasyLb] = useState([]);
     const [mediumLb, setMediumLb] = useState([]);
@@ -47,6 +48,12 @@ const LeaderboardScreen = () => {
                     <View style={{paddingTop: 20}}>
                         <Text style={[styles.title, {backgroundColor: '#ffd6d6'}]}>Hard</Text>
                         {hardLb.map(toLeaderboardRow)}
+                    </View>
+                    <View style={{alignItems: 'center', paddingTop: 20, paddingBottom: 10}}>
+                        <Button 
+                            color='#d6f9ff' 
+                            text='Go back' 
+                            onPress={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
                     </View>
                 </View>
             </ScrollView>

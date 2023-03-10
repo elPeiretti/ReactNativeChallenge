@@ -37,15 +37,15 @@ const LeaderboardScreen = () => {
             <ScrollView>
                 <View style={{justifyContent: 'center', flex: 1}}>
                     <View>
-                            <Text style={styles.title}>Easy</Text>
-                        {easyLb.map(toLeaderboardRow)}
+                            <Text style={[styles.title, {backgroundColor: '#d6f9ff'}]}>Easy</Text>
+                            {easyLb.map(toLeaderboardRow)}
                     </View>
                     <View style={{paddingTop: 20}}>
-                        <Text style={styles.title}>Medium</Text>
+                        <Text style={[styles.title, {backgroundColor: '#ffe8aa'}]}>Medium</Text>
                         {mediumLb.map(toLeaderboardRow)}
                     </View>
                     <View style={{paddingTop: 20}}>
-                        <Text style={styles.title}>Hard</Text>
+                        <Text style={[styles.title, {backgroundColor: '#ffd6d6'}]}>Hard</Text>
                         {hardLb.map(toLeaderboardRow)}
                     </View>
                 </View>
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         alignSelf: 'stretch',
         textAlign: 'center',
-        backgroundColor: '#d6f9ff',
         borderBottomWidth: 1,
         borderTopWidth: 1
     },

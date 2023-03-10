@@ -13,6 +13,11 @@ Here are the rules to follow:
 - Documentate changes, additions, problems and solutions for each day in this file.
 - Must do some planification on day 1.
 
+![MainScreen](./assets/MainScreen.png "MainScreen")
+![DifficultyScreen](./assets/DifficultyScreen.png "DifficultyScreen")
+![GameScreen](./assets/GameScreen.png "MainScreen")
+![LeaderboardScreen](./assets/LeaderboardScreen.png "LeaderboardScreen")
+
 ## Day 1
 > Time dedicated: about 4 hours
 
@@ -97,3 +102,12 @@ On day 9, the next things were done:
 - I've coded the Leaderboard screen and made the calls to the API implemented to load the leaderboards.
 
 On day 10 The main objective will be to beautify the leaderboard Screen, it's missing a back button and I do not like how the titles look. Then, if I have time left I will try to improve the layer abstraction between the screen and the repository (I would like to return an array from the repository call, not the promise)
+
+## Day 10
+> Time dedicated: about 3 hours
+
+On day 10, the next things were done:
+- I've improved the leaderboard screen UI.
+- I've added a submit option in the FinishModal to write a name and upload the score through the API.
+- I've improved the leaderboard screen code, now it's more "readable"
+- I tried to add Authentification to the API, preventing users to POST scores using curl for example, but after reading a bit, I did not know if I was going to make it before reaching the 6 hour mark.

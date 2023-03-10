@@ -1,13 +1,15 @@
-import React, { useContext } from "react"
-import { StyleSheet, View, Text, Modal } from "react-native";
+import React, { useContext, useState } from "react"
+import { StyleSheet, View, Text, Modal, TextInput } from "react-native";
 import { TimeContext } from "../../../context/TimeContext";
 import Button from "../Button";
 import DefaultModalStyle from "./DefaultModalStyle";
 import { secondsTohhmmss } from "../Stopwatch";
+import { uploadScore } from "../../../persistence/repository/LeaderboardRepository";
 
 const FinishModal = (props) => {
 
     const timeContext = useContext(TimeContext);
+    const [playerName, onChangePlayerName] = useState('No-name')
 
     return (
     <Modal
@@ -22,7 +24,21 @@ const FinishModal = (props) => {
                     <Text style={{fontSize: 28, fontWeight: 'bold', fontFamily: 'monospace', paddingBottom: 10}}>
                         {secondsTohhmmss(timeContext.time)}
                     </Text>
-                    <Button text='Continue' onPress={props.onPressContinue}/>
+                    {props.showSubmit ? (
+                        <View style={{paddingBottom: 5}}>
+                            <View style={{paddingBottom: 5}}>
+                                <TextInput
+                                   style={{borderWidth: 2, borderRadius: 10, paddingHorizontal: 10}}
+                                   placeholder='Insert your name...'
+                                   onChangeText={onChangePlayerName}/>
+                            </View>
+                            <Button text='Submit' onPress={()=>{
+                                uploadScore(props.difficulty == 2 ? 'easy': (props.difficulty == 1 ? 'medium' : 'hard'), 
+                                    playerName, secondsTohhmmss(timeContext.time));
+                                props.onPressContinue();
+                            }}/>
+                        </View>):null}
+                    <Button text='Exit' onPress={props.onPressContinue}/>
                 </View>
             </View>
         </Modal>

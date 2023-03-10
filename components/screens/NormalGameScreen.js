@@ -15,6 +15,7 @@ const NormalGameScreen = ({route, navigation}) => {
     const [pauseModalVisible, setpauseModalVisible] = useState(false);
     const [finishModalVisible, setFinishModalVisible] = useState(false);
     const [mode, setMode] = useState('write');
+    const [hintUsed, setHintUsed] = useState(false);
     const cell = {
         i: -1,
         j: -1,
@@ -86,6 +87,27 @@ const NormalGameScreen = ({route, navigation}) => {
         setSelectedCell(selectedCopy);
     }
 
+    function onHintPressed(){
+
+        const insertHint = () => {
+            var m = JSON.parse(JSON.stringify(matrix));
+            m[selectedCell.i][selectedCell.j].value = solution[selectedCell.i][selectedCell.j];
+            m[selectedCell.i][selectedCell.j].ok = true;
+            m[selectedCell.i][selectedCell.j].visible = true;
+            setMatrix(m);
+        }
+
+        if (selectedCell === undefined || selectedCell.ok) return;
+        if (!hintUsed){
+            Alert.alert('Warning!','If you use hints, your score won\'t be submitted to the leaderboard. Do you wish to continue?', [
+                {text: 'Yes', onPress: () => {setHintUsed(true); insertHint()}},
+                {text: 'No'}
+            ]);
+            return;
+        }
+        insertHint();
+    }
+
     function checkAndFinish(){
         var finished = false;
         for(var i=0; i<9; i+=1){
@@ -115,7 +137,8 @@ const NormalGameScreen = ({route, navigation}) => {
                 onExitPressed={() => navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}/>
             <FinishModal 
                 isVisible={finishModalVisible} 
-                difficulty={difficulty} 
+                difficulty={difficulty}
+                showSubmit={!hintUsed} 
                 onPressContinue={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
                 <Stopwatch startTime={0} isCounting={isCounting} mode='increment'/>
@@ -190,14 +213,7 @@ const NormalGameScreen = ({route, navigation}) => {
                 <IconButton
                     text='hint' 
                     image={require('../ui/icons/hint.png')}
-                    onPress={()=>{
-                        if (selectedCell === undefined || selectedCell.ok) return;
-                        var m = JSON.parse(JSON.stringify(matrix));
-                        m[selectedCell.i][selectedCell.j].value = solution[selectedCell.i][selectedCell.j];
-                        m[selectedCell.i][selectedCell.j].ok = true;
-                        m[selectedCell.i][selectedCell.j].visible = true;
-                        setMatrix(m);
-                    }}
+                    onPress={()=>{onHintPressed()}}
                     isSelected={false}/>
                 <IconButton
                     text='finish' 

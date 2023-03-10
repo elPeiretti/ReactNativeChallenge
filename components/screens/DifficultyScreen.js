@@ -10,9 +10,9 @@ const DifficultyScreen = ({route, navigation}) => {
         <View style={styles.screen}>
             <Text style={styles.title}>Choose Difficulty</Text>
             {/*
-            Might implement it later 
+            Might implement it later
             <View style={styles.buttonContainer}>
-                <Button text='4x4' onPress={()=>navigation.navigate('GameScreen', 10)}/>
+                <Button text='4x4' onPress={()=>navigation.navigate(gameMode, 10)}/>
             </View>
             */}
             <View style={styles.buttonContainer}>

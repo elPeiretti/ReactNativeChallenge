@@ -20,3 +20,10 @@ export async function getLeaderboard(difficulty) {
         .then(objToArray);
         return top10;
 }
+
+export async function uploadScore(difficulty, name, score) {
+    fetch('http://127.0.0.1:8000/ranking/'+name+"?difficulty="+difficulty+"&score="+score,
+    {method: 'POST', headers: {"accept": "application/json"}})
+        .then(checkResponseStatus)
+        .catch(err => console.log('request failed', err));
+}

@@ -13,6 +13,11 @@ Here are the rules to follow:
 - Documentate changes, additions, problems and solutions for each day in this file.
 - Must do some planification on day 1.
 
+![MainScreen](./assets/MainScreen.png "MainScreen")
+![DifficultyScreen](./assets/DifficultyScreen.png "DifficultyScreen")
+![GameScreen](./assets/GameScreen.png "MainScreen")
+![LeaderboardScreen](./assets/LeaderboardScreen.png "LeaderboardScreen")
+
 ## Day 1
 > Time dedicated: about 4 hours
 

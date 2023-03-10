@@ -34,8 +34,9 @@ const FinishModal = (props) => {
                             </View>
                             <Button text='Submit' onPress={()=>{
                                 uploadScore(props.difficulty == 2 ? 'easy': (props.difficulty == 1 ? 'medium' : 'hard'), 
-                                playerName, secondsTohhmmss(timeContext.time));
-                                }}/>
+                                    playerName, secondsTohhmmss(timeContext.time));
+                                props.onPressContinue();
+                            }}/>
                         </View>):null}
                     <Button text='Exit' onPress={props.onPressContinue}/>
                 </View>

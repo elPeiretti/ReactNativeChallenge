@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { StyleSheet, View, Text, Modal } from "react-native";
+import { StyleSheet, View, Text, Modal, TextInput } from "react-native";
 import { TimeContext } from "../../../context/TimeContext";
 import Button from "../Button";
 import DefaultModalStyle from "./DefaultModalStyle";
@@ -22,7 +22,16 @@ const FinishModal = (props) => {
                     <Text style={{fontSize: 28, fontWeight: 'bold', fontFamily: 'monospace', paddingBottom: 10}}>
                         {secondsTohhmmss(timeContext.time)}
                     </Text>
-                    <Button text='Continue' onPress={props.onPressContinue}/>
+                    {props.showSubmit ? (
+                        <View style={{paddingBottom: 5}}>
+                            <View style={{paddingBottom: 5}}>
+                                <TextInput
+                                   style={{borderWidth: 2, borderRadius: 10, paddingHorizontal: 10}}
+                                   placeholder='Insert your name...'/>
+                            </View>
+                            <Button text='Submit' onPress={()=>{}}/>
+                        </View>):null}
+                    <Button text='Exit' onPress={props.onPressContinue}/>
                 </View>
             </View>
         </Modal>

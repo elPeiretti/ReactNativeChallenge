@@ -137,7 +137,8 @@ const NormalGameScreen = ({route, navigation}) => {
                 onExitPressed={() => navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}/>
             <FinishModal 
                 isVisible={finishModalVisible} 
-                difficulty={difficulty} 
+                difficulty={difficulty}
+                showSubmit={!hintUsed} 
                 onPressContinue={()=>{navigation.reset({index:0, routes: [{name: 'MainScreen'}]})}}/>
             <View style={{flexDirection: 'row', alignSelf: 'flex-end', paddingEnd: 15, paddingTop: 30}}>
                 <Stopwatch startTime={0} isCounting={isCounting} mode='increment'/>

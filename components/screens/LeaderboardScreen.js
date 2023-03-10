@@ -26,16 +26,18 @@ const LeaderboardScreen = () => {
     function toLeaderboardRow(player){
         return (
             <Text key={[player[0],player[1]]} style={styles.position}>
-                {player[0]+" - "+player[1]+" - "+player[2]}
+                {player[0]+" - "}
+                <Text style={{color:'#0097ff', fontWeight: 'bold'}}>{[player[1]]}</Text>
+                {" - "+player[2]}
             </Text>);
     }
 
     return (
         <SafeAreaView>
             <ScrollView>
-                <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <View style={{justifyContent: 'center', flex: 1}}>
                     <View>
-                        <Text style={styles.title}>Easy</Text>
+                            <Text style={styles.title}>Easy</Text>
                         {easyLb.map(toLeaderboardRow)}
                     </View>
                     <View style={{paddingTop: 20}}>
@@ -59,10 +61,15 @@ const styles = StyleSheet.create({
         fontSize: 42,
         fontFamily: 'monospace',
         fontWeight: 'bold',
-        alignSelf: 'center',
+        alignSelf: 'stretch',
+        textAlign: 'center',
         backgroundColor: '#d6f9ff',
+        borderBottomWidth: 1,
+        borderTopWidth: 1
     },
     position:{
-        fontSize: 16
+        fontSize: 18,
+        alignSelf: 'center',
+        padding: 2
     }
 });

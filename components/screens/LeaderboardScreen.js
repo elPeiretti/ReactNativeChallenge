@@ -20,10 +20,10 @@ const LeaderboardScreen = ({navigation}) => {
 
     function toLeaderboardRow(player){
         return (
-            <Text key={[player[0],player[1]]} style={styles.position}>
-                {player[0]+" - "}
-                <Text style={{color:'#0097ff', fontWeight: 'bold'}}>{[player[1]]}</Text>
-                {" - "+player[2]}
+            <Text key={[player.pos, player.name]} style={styles.position}>
+                {player.pos+" - "}
+                <Text style={{color:'#0097ff', fontWeight: 'bold'}}>{player.name}</Text>
+                {" - "+player.score}
             </Text>);
     }
 

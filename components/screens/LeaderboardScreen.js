@@ -13,15 +13,9 @@ const LeaderboardScreen = ({navigation}) => {
         const loadLb = async (diff) => {
             return await getLeaderboard(diff);
         }
-        const objToArray = (obj) => {
-            //ok this works
-            var i=1;
-            return Object.keys(obj).map((key) => [i++, key, Object.keys(obj[key]).map(s => obj[key][s])[0]]);
-        }
-        loadLb("easy").then(objToArray).then(setEasyLb);    
-        loadLb("medium").then(objToArray).then(setMediumLb);            
-        loadLb("hard").then(objToArray).then(setHardLb);            
-
+        loadLb("easy").then(setEasyLb);
+        loadLb("medium").then(setMediumLb);    
+        loadLb("hard").then(setHardLb);    
     }, []);
 
     function toLeaderboardRow(player){

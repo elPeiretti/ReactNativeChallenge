@@ -16,7 +16,7 @@ const DifficultyScreen = ({route, navigation}) => {
             </View>
             */}
             <View style={styles.buttonContainer}>
-                <Button text='Easy' onPress={()=>navigation.navigate(gameMode, 11)}/>
+                <Button text='Easy' onPress={()=>navigation.navigate(gameMode, 2)}/>
             </View>
             <View style={styles.buttonContainer}>
                 <Button text='Medium' onPress={()=>navigation.navigate(gameMode, 1)}/>
